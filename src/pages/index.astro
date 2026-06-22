@@ -1,0 +1,244 @@
+---
+import '../styles/global.css';
+import { site, pi, researchAreas, members, projects, publications, news } from '../data/lab';
+
+const currentYear = new Date().getFullYear();
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Li-lab develops interpretable and data-efficient medical AI methods for computational pathology and biomedical data science."
+    />
+    <title>{site.labName} | {site.slogan}</title>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container nav">
+        <a class="brand" href="#home" aria-label="Li-lab home">
+          <span class="logo-mark">Li</span>
+          <span>{site.labName}</span>
+        </a>
+        <nav class="nav-links" aria-label="Primary navigation">
+          <a href="#research">Research</a>
+          <a href="#projects">Projects</a>
+          <a href="#people">People</a>
+          <a href="#publications">Publications</a>
+          <a href="#news">News</a>
+          <a class="nav-cta" href="#contact">Join Us</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="home">
+      <section class="hero">
+        <div class="container hero-grid">
+          <div>
+            <span class="eyebrow">{site.labNameZh} · Biomedical AI Lab</span>
+            <h1><span>Li</span>-lab</h1>
+            <p class="lead"><strong>{site.slogan}</strong></p>
+            <p class="lead">{site.intro}</p>
+            <p class="zh">{site.introZh}</p>
+            <div class="hero-actions">
+              <a class="button primary" href="#research">Explore Research</a>
+              <a class="button secondary" href="#contact">Join Li-lab</a>
+            </div>
+          </div>
+
+          <div class="hero-card" aria-label="Abstract computational pathology illustration">
+            <div class="patch-map">
+              {Array.from({ length: 30 }).map(() => <div class="patch" />)}
+            </div>
+            <div class="floating-note">
+              <strong>Computational pathology × Real-world data</strong>
+              <span>From WSI patches to clinically grounded, interpretable AI models.</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="research">
+        <div class="container">
+          <div class="section-heading">
+            <div>
+              <div class="section-kicker">Research</div>
+              <h2>Research areas</h2>
+            </div>
+            <p class="section-description">
+              We focus on methods that are robust under limited labels, domain shift, and real clinical heterogeneity.
+            </p>
+          </div>
+
+          <div class="grid-3">
+            {researchAreas.map((area) => (
+              <article class="card">
+                <div class="area-icon">{area.icon}</div>
+                <h3>{area.title}</h3>
+                <p class="zh">{area.titleZh}</p>
+                <p>{area.summary}</p>
+                <p class="zh">{area.summaryZh}</p>
+                <div class="tags">
+                  {area.keywords.map((keyword) => <span class="tag">{keyword}</span>)}
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="projects">
+        <div class="container">
+          <div class="section-heading">
+            <div>
+              <div class="section-kicker">Projects</div>
+              <h2>Featured projects</h2>
+            </div>
+            <p class="section-description">
+              Representative projects are organized as reusable cards, so future students only need to edit data files.
+            </p>
+          </div>
+
+          <div class="grid-3">
+            {projects.map((project) => (
+              <article class="card project-card">
+                <span class="status">{project.status}</span>
+                <h3>{project.title}</h3>
+                <p class="zh">{project.subtitle}</p>
+                <p>{project.summary}</p>
+                <div class="tags">
+                  {project.tags.map((tag) => <span class="tag">{tag}</span>)}
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="people">
+        <div class="container">
+          <div class="section-heading">
+            <div>
+              <div class="section-kicker">People</div>
+              <h2>Team members</h2>
+            </div>
+            <p class="section-description">
+              Li-lab welcomes students from medicine, computer science, statistics, bioinformatics, and biomedical engineering.
+            </p>
+          </div>
+
+          <div class="card" style="margin-bottom: 18px;">
+            <h3>{pi.name} · {pi.nameZh}</h3>
+            <p class="role">{pi.title} · {pi.titleZh}</p>
+            <p>{pi.research}</p>
+            <p class="zh">{pi.researchZh}</p>
+            <p class="meta">Email: <a href={`mailto:${pi.email}`}>{pi.email}</a></p>
+          </div>
+
+          <div class="people-grid">
+            {members.map((member) => (
+              <article class="card member-card">
+                <img class="avatar" src={member.avatar} alt={`${member.name} avatar`} />
+                <h3>{member.name}</h3>
+                <p class="role">{member.role}</p>
+                <p class="meta">{member.focus}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="publications">
+        <div class="container">
+          <div class="section-heading">
+            <div>
+              <div class="section-kicker">Publications</div>
+              <h2>Selected publications</h2>
+            </div>
+            <p class="section-description">
+              Replace these placeholder papers with your real manuscripts, journal articles, preprints, and conference papers.
+            </p>
+          </div>
+
+          <div class="publication-list">
+            {publications.map((paper) => (
+              <article class="pub-item">
+                <div class="year">{paper.year}</div>
+                <div>
+                  <h3>{paper.title}</h3>
+                  <p class="meta">{paper.authors}</p>
+                  <p class="meta"><strong>{paper.venue}</strong></p>
+                  <div class="tags">
+                    {paper.tags.map((tag) => <span class="tag">{tag}</span>)}
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="news">
+        <div class="container">
+          <div class="section-heading">
+            <div>
+              <div class="section-kicker">News</div>
+              <h2>Latest news</h2>
+            </div>
+            <p class="section-description">
+              News makes the lab look active. Keep it short, dated, and easy to update.
+            </p>
+          </div>
+
+          <div class="news-list">
+            {news.map((item) => (
+              <article class="news-item">
+                <div class="date">{item.date}</div>
+                <div>
+                  <h3>{item.title}</h3>
+                  <p class="meta">{item.summary}</p>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="contact">
+        <div class="container">
+          <div class="contact-panel">
+            <div class="contact-box">
+              <div class="section-kicker">Join Us</div>
+              <h2>Work with Li-lab</h2>
+              <p>
+                We are looking for motivated students interested in medical AI, computational pathology, weakly supervised learning, and biomedical data science.
+              </p>
+              <p class="zh">
+                欢迎对医学人工智能、计算病理、弱监督学习和真实世界医学数据建模感兴趣的同学加入。
+              </p>
+              <a class="button primary" href={`mailto:${site.email}`}>Email us</a>
+            </div>
+            <div class="contact-box">
+              <h3>Contact</h3>
+              <p><strong>Email:</strong> <a href={`mailto:${site.email}`}>{site.email}</a></p>
+              <p><strong>Address:</strong> {site.address}</p>
+              <p class="zh">{site.addressZh}</p>
+              <p><strong>City:</strong> {site.city}</p>
+              <p><strong>GitHub:</strong> <a href={site.github}>{site.github}</a></p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <span>© {currentYear} {site.labName}. All rights reserved.</span>
+        <span>Built with Astro for a lightweight academic web presence.</span>
+      </div>
+    </footer>
+  </body>
+</html>
