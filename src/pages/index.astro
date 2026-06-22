@@ -1,244 +1,433 @@
 ---
+import {
+  site,
+  ui,
+  stats,
+  researchAreas,
+  projects,
+  members,
+  publications,
+  news,
+} from '../data/lab';
+
 import '../styles/global.css';
-import { site, pi, researchAreas, members, projects, publications, news } from '../data/lab';
 
 const currentYear = new Date().getFullYear();
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="zh-CN">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="Li-lab develops interpretable and data-efficient medical AI methods for computational pathology and biomedical data science."
+      content="Li-lab focuses on medical AI, bioinformatics, pharmacogenomics, and cancer systems biology."
     />
-    <title>{site.labName} | {site.slogan}</title>
+    <title>Li-lab | 智能医学与生物信息学实验室</title>
   </head>
-  <body>
+
+  <body
+    data-title-zh="Li-lab | 智能医学与生物信息学实验室"
+    data-title-en="Li-lab | Laboratory for Intelligent Medicine and Bioinformatics"
+  >
+    <canvas id="particle-canvas" aria-hidden="true"></canvas>
+    <div class="cursor-glow" aria-hidden="true"></div>
+
     <header class="site-header">
-      <div class="container nav">
-        <a class="brand" href="#home" aria-label="Li-lab home">
-          <span class="logo-mark">Li</span>
-          <span>{site.labName}</span>
+      <div class="header-inner">
+        <a class="brand" href="#top" aria-label="Li-lab home">
+          <span class="brand-mark">Li</span>
+          <span class="brand-text">
+            <strong data-i18n data-zh={site.labName.zh} data-en={site.labName.en}>{site.labName.zh}</strong>
+            <small data-i18n data-zh={site.labNameZh.zh} data-en={site.labNameZh.en}>{site.labNameZh.zh}</small>
+          </span>
         </a>
+
         <nav class="nav-links" aria-label="Primary navigation">
-          <a href="#research">Research</a>
-          <a href="#projects">Projects</a>
-          <a href="#people">People</a>
-          <a href="#publications">Publications</a>
-          <a href="#news">News</a>
-          <a class="nav-cta" href="#contact">Join Us</a>
+          <a href="#research" data-i18n data-zh={ui.nav.research.zh} data-en={ui.nav.research.en}>{ui.nav.research.zh}</a>
+          <a href="#projects" data-i18n data-zh={ui.nav.projects.zh} data-en={ui.nav.projects.en}>{ui.nav.projects.zh}</a>
+          <a href="#people" data-i18n data-zh={ui.nav.people.zh} data-en={ui.nav.people.en}>{ui.nav.people.zh}</a>
+          <a href="#publications" data-i18n data-zh={ui.nav.publications.zh} data-en={ui.nav.publications.en}>{ui.nav.publications.zh}</a>
+          <a href="#news" data-i18n data-zh={ui.nav.news.zh} data-en={ui.nav.news.en}>{ui.nav.news.zh}</a>
+          <a href="#contact" data-i18n data-zh={ui.nav.contact.zh} data-en={ui.nav.contact.en}>{ui.nav.contact.zh}</a>
         </nav>
+
+        <button class="lang-toggle" type="button" data-lang-toggle aria-label="Switch language">
+          <span class="lang-dot"></span>
+          <span data-lang-toggle-label>{ui.buttons.language.zh}</span>
+        </button>
       </div>
     </header>
 
-    <main id="home">
-      <section class="hero">
-        <div class="container hero-grid">
-          <div>
-            <span class="eyebrow">{site.labNameZh} · Biomedical AI Lab</span>
-            <h1><span>Li</span>-lab</h1>
-            <p class="lead"><strong>{site.slogan}</strong></p>
-            <p class="lead">{site.intro}</p>
-            <p class="zh">{site.introZh}</p>
-            <div class="hero-actions">
-              <a class="button primary" href="#research">Explore Research</a>
-              <a class="button secondary" href="#contact">Join Li-lab</a>
-            </div>
+    <main id="top">
+      <section class="hero section-shell">
+        <div class="hero-copy reveal">
+          <p class="eyebrow">
+            <span class="eyebrow-dot"></span>
+            <span data-i18n data-zh={site.location.zh} data-en={site.location.en}>{site.location.zh}</span>
+          </p>
+
+          <h1 data-i18n data-zh={site.heroTitle.zh} data-en={site.heroTitle.en}>
+            {site.heroTitle.zh}
+          </h1>
+
+          <p class="hero-description" data-i18n data-zh={site.heroDescription.zh} data-en={site.heroDescription.en}>
+            {site.heroDescription.zh}
+          </p>
+
+          <div class="hero-actions">
+            <a class="button button-primary" href="#research" data-i18n data-zh={ui.buttons.explore.zh} data-en={ui.buttons.explore.en}>
+              {ui.buttons.explore.zh}
+            </a>
+            <a class="button button-secondary" href="#contact" data-i18n data-zh={ui.buttons.join.zh} data-en={ui.buttons.join.en}>
+              {ui.buttons.join.zh}
+            </a>
+          </div>
+        </div>
+
+        <div class="hero-visual reveal" aria-label="Abstract biomedical AI visualization">
+          <div class="visual-topline">
+            <span>Li-lab</span>
+            <span>Medical AI</span>
           </div>
 
-          <div class="hero-card" aria-label="Abstract computational pathology illustration">
-            <div class="patch-map">
-              {Array.from({ length: 30 }).map(() => <div class="patch" />)}
-            </div>
-            <div class="floating-note">
-              <strong>Computational pathology × Real-world data</strong>
-              <span>From WSI patches to clinically grounded, interpretable AI models.</span>
-            </div>
+          <div class="visual-grid">
+            {Array.from({ length: 24 }).map((_, index) => (
+              <span class={`visual-cell visual-cell-${(index % 6) + 1}`}></span>
+            ))}
+          </div>
+
+          <div class="visual-card">
+            <span>Research Focus</span>
+            <strong>AI · Bioinformatics · Pharmacogenomics</strong>
+            <small>Cancer systems biology and translational modeling</small>
           </div>
         </div>
       </section>
 
-      <section class="section" id="research">
-        <div class="container">
-          <div class="section-heading">
-            <div>
-              <div class="section-kicker">Research</div>
-              <h2>Research areas</h2>
-            </div>
-            <p class="section-description">
-              We focus on methods that are robust under limited labels, domain shift, and real clinical heterogeneity.
-            </p>
+      <section class="stats section-shell reveal">
+        {stats.map((item) => (
+          <div class="stat-card">
+            <strong>{item.value}</strong>
+            <span data-i18n data-zh={item.label.zh} data-en={item.label.en}>{item.label.zh}</span>
           </div>
+        ))}
+      </section>
 
-          <div class="grid-3">
-            {researchAreas.map((area) => (
-              <article class="card">
-                <div class="area-icon">{area.icon}</div>
-                <h3>{area.title}</h3>
-                <p class="zh">{area.titleZh}</p>
-                <p>{area.summary}</p>
-                <p class="zh">{area.summaryZh}</p>
-                <div class="tags">
-                  {area.keywords.map((keyword) => <span class="tag">{keyword}</span>)}
+      <section id="research" class="section-shell page-section">
+        <div class="section-heading reveal">
+          <p class="eyebrow" data-i18n data-zh={ui.sections.researchEyebrow.zh} data-en={ui.sections.researchEyebrow.en}>
+            {ui.sections.researchEyebrow.zh}
+          </p>
+          <h2 data-i18n data-zh={ui.sections.researchTitle.zh} data-en={ui.sections.researchTitle.en}>
+            {ui.sections.researchTitle.zh}
+          </h2>
+          <p data-i18n data-zh={ui.sections.researchDesc.zh} data-en={ui.sections.researchDesc.en}>
+            {ui.sections.researchDesc.zh}
+          </p>
+        </div>
+
+        <div class="card-grid three-columns">
+          {researchAreas.map((area) => (
+            <article class="research-card reveal tilt-card">
+              <div class="card-icon">{area.icon}</div>
+              <h3 data-i18n data-zh={area.title.zh} data-en={area.title.en}>{area.title.zh}</h3>
+              <p data-i18n data-zh={area.description.zh} data-en={area.description.en}>{area.description.zh}</p>
+              <ul>
+                {area.bullets.map((bullet) => (
+                  <li data-i18n data-zh={bullet.zh} data-en={bullet.en}>{bullet.zh}</li>
+                ))}
+              </ul>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section id="projects" class="section-shell page-section">
+        <div class="section-heading reveal">
+          <p class="eyebrow" data-i18n data-zh={ui.sections.projectsEyebrow.zh} data-en={ui.sections.projectsEyebrow.en}>
+            {ui.sections.projectsEyebrow.zh}
+          </p>
+          <h2 data-i18n data-zh={ui.sections.projectsTitle.zh} data-en={ui.sections.projectsTitle.en}>
+            {ui.sections.projectsTitle.zh}
+          </h2>
+        </div>
+
+        <div class="project-list">
+          {projects.map((project) => (
+            <article class="project-card reveal tilt-card">
+              <div>
+                <span class="status" data-i18n data-zh={project.status.zh} data-en={project.status.en}>{project.status.zh}</span>
+                <h3 data-i18n data-zh={project.title.zh} data-en={project.title.en}>{project.title.zh}</h3>
+                <p data-i18n data-zh={project.description.zh} data-en={project.description.en}>{project.description.zh}</p>
+              </div>
+              <div class="tag-row">
+                {project.tags.map((tag) => (
+                  <span data-i18n data-zh={tag.zh} data-en={tag.en}>{tag.zh}</span>
+                ))}
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section id="people" class="section-shell page-section">
+        <div class="section-heading reveal">
+          <p class="eyebrow" data-i18n data-zh={ui.sections.peopleEyebrow.zh} data-en={ui.sections.peopleEyebrow.en}>
+            {ui.sections.peopleEyebrow.zh}
+          </p>
+          <h2 data-i18n data-zh={ui.sections.peopleTitle.zh} data-en={ui.sections.peopleTitle.en}>
+            {ui.sections.peopleTitle.zh}
+          </h2>
+        </div>
+
+        <div class="card-grid people-grid">
+          {members.map((member) => (
+            <article class="member-card reveal tilt-card">
+              <img src={member.avatar} alt="" loading="lazy" />
+              <h3 data-i18n data-zh={member.name.zh} data-en={member.name.en}>{member.name.zh}</h3>
+              <p class="member-role" data-i18n data-zh={member.role.zh} data-en={member.role.en}>{member.role.zh}</p>
+              <p data-i18n data-zh={member.focus.zh} data-en={member.focus.en}>{member.focus.zh}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section id="publications" class="section-shell page-section">
+        <div class="section-heading reveal">
+          <p class="eyebrow" data-i18n data-zh={ui.sections.publicationsEyebrow.zh} data-en={ui.sections.publicationsEyebrow.en}>
+            {ui.sections.publicationsEyebrow.zh}
+          </p>
+          <h2 data-i18n data-zh={ui.sections.publicationsTitle.zh} data-en={ui.sections.publicationsTitle.en}>
+            {ui.sections.publicationsTitle.zh}
+          </h2>
+        </div>
+
+        <div class="publication-list">
+          {publications.map((paper) => (
+            <article class="publication-item reveal">
+              <div class="publication-year">{paper.year}</div>
+              <div>
+                <h3 data-i18n data-zh={paper.title.zh} data-en={paper.title.en}>{paper.title.zh}</h3>
+                <p>{paper.authors}</p>
+                <p class="venue" data-i18n data-zh={paper.venue.zh} data-en={paper.venue.en}>{paper.venue.zh}</p>
+                <div class="tag-row">
+                  {paper.tags.map((tag) => (
+                    <span data-i18n data-zh={tag.zh} data-en={tag.en}>{tag.zh}</span>
+                  ))}
                 </div>
-              </article>
-            ))}
-          </div>
+              </div>
+            </article>
+          ))}
         </div>
       </section>
 
-      <section class="section" id="projects">
-        <div class="container">
-          <div class="section-heading">
-            <div>
-              <div class="section-kicker">Projects</div>
-              <h2>Featured projects</h2>
-            </div>
-            <p class="section-description">
-              Representative projects are organized as reusable cards, so future students only need to edit data files.
-            </p>
-          </div>
+      <section id="news" class="section-shell page-section">
+        <div class="section-heading reveal">
+          <p class="eyebrow" data-i18n data-zh={ui.sections.newsEyebrow.zh} data-en={ui.sections.newsEyebrow.en}>
+            {ui.sections.newsEyebrow.zh}
+          </p>
+          <h2 data-i18n data-zh={ui.sections.newsTitle.zh} data-en={ui.sections.newsTitle.en}>
+            {ui.sections.newsTitle.zh}
+          </h2>
+        </div>
 
-          <div class="grid-3">
-            {projects.map((project) => (
-              <article class="card project-card">
-                <span class="status">{project.status}</span>
-                <h3>{project.title}</h3>
-                <p class="zh">{project.subtitle}</p>
-                <p>{project.summary}</p>
-                <div class="tags">
-                  {project.tags.map((tag) => <span class="tag">{tag}</span>)}
-                </div>
-              </article>
-            ))}
-          </div>
+        <div class="news-list">
+          {news.map((item) => (
+            <article class="news-item reveal">
+              <time>{item.date}</time>
+              <h3 data-i18n data-zh={item.title.zh} data-en={item.title.en}>{item.title.zh}</h3>
+              <p data-i18n data-zh={item.summary.zh} data-en={item.summary.en}>{item.summary.zh}</p>
+            </article>
+          ))}
         </div>
       </section>
 
-      <section class="section" id="people">
-        <div class="container">
-          <div class="section-heading">
-            <div>
-              <div class="section-kicker">People</div>
-              <h2>Team members</h2>
-            </div>
-            <p class="section-description">
-              Li-lab welcomes students from medicine, computer science, statistics, bioinformatics, and biomedical engineering.
-            </p>
-          </div>
-
-          <div class="card" style="margin-bottom: 18px;">
-            <h3>{pi.name} · {pi.nameZh}</h3>
-            <p class="role">{pi.title} · {pi.titleZh}</p>
-            <p>{pi.research}</p>
-            <p class="zh">{pi.researchZh}</p>
-            <p class="meta">Email: <a href={`mailto:${pi.email}`}>{pi.email}</a></p>
-          </div>
-
-          <div class="people-grid">
-            {members.map((member) => (
-              <article class="card member-card">
-                <img class="avatar" src={member.avatar} alt={`${member.name} avatar`} />
-                <h3>{member.name}</h3>
-                <p class="role">{member.role}</p>
-                <p class="meta">{member.focus}</p>
-              </article>
-            ))}
-          </div>
+      <section id="contact" class="contact-section section-shell reveal">
+        <div>
+          <p class="eyebrow" data-i18n data-zh={ui.sections.contactEyebrow.zh} data-en={ui.sections.contactEyebrow.en}>
+            {ui.sections.contactEyebrow.zh}
+          </p>
+          <h2 data-i18n data-zh={ui.sections.contactTitle.zh} data-en={ui.sections.contactTitle.en}>
+            {ui.sections.contactTitle.zh}
+          </h2>
         </div>
-      </section>
-
-      <section class="section" id="publications">
-        <div class="container">
-          <div class="section-heading">
-            <div>
-              <div class="section-kicker">Publications</div>
-              <h2>Selected publications</h2>
-            </div>
-            <p class="section-description">
-              Replace these placeholder papers with your real manuscripts, journal articles, preprints, and conference papers.
-            </p>
-          </div>
-
-          <div class="publication-list">
-            {publications.map((paper) => (
-              <article class="pub-item">
-                <div class="year">{paper.year}</div>
-                <div>
-                  <h3>{paper.title}</h3>
-                  <p class="meta">{paper.authors}</p>
-                  <p class="meta"><strong>{paper.venue}</strong></p>
-                  <div class="tags">
-                    {paper.tags.map((tag) => <span class="tag">{tag}</span>)}
-                  </div>
-                </div>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section class="section" id="news">
-        <div class="container">
-          <div class="section-heading">
-            <div>
-              <div class="section-kicker">News</div>
-              <h2>Latest news</h2>
-            </div>
-            <p class="section-description">
-              News makes the lab look active. Keep it short, dated, and easy to update.
-            </p>
-          </div>
-
-          <div class="news-list">
-            {news.map((item) => (
-              <article class="news-item">
-                <div class="date">{item.date}</div>
-                <div>
-                  <h3>{item.title}</h3>
-                  <p class="meta">{item.summary}</p>
-                </div>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section class="section" id="contact">
-        <div class="container">
-          <div class="contact-panel">
-            <div class="contact-box">
-              <div class="section-kicker">Join Us</div>
-              <h2>Work with Li-lab</h2>
-              <p>
-                We are looking for motivated students interested in medical AI, computational pathology, weakly supervised learning, and biomedical data science.
-              </p>
-              <p class="zh">
-                欢迎对医学人工智能、计算病理、弱监督学习和真实世界医学数据建模感兴趣的同学加入。
-              </p>
-              <a class="button primary" href={`mailto:${site.email}`}>Email us</a>
-            </div>
-            <div class="contact-box">
-              <h3>Contact</h3>
-              <p><strong>Email:</strong> <a href={`mailto:${site.email}`}>{site.email}</a></p>
-              <p><strong>Address:</strong> {site.address}</p>
-              <p class="zh">{site.addressZh}</p>
-              <p><strong>City:</strong> {site.city}</p>
-              <p><strong>GitHub:</strong> <a href={site.github}>{site.github}</a></p>
-            </div>
-          </div>
+        <div class="contact-card">
+          <p>
+            <strong>Email</strong>
+            <a href={`mailto:${site.email}`}>{site.email}</a>
+          </p>
+          <p>
+            <strong>Address</strong>
+            <span data-i18n data-zh={site.address.zh} data-en={site.address.en}>{site.address.zh}</span>
+          </p>
         </div>
       </section>
     </main>
 
     <footer class="site-footer">
-      <div class="container footer-inner">
-        <span>© {currentYear} {site.labName}. All rights reserved.</span>
-        <span>Built with Astro for a lightweight academic web presence.</span>
-      </div>
+      <span>© {currentYear} Li-lab</span>
+      <span>Academic communication · Collaboration · Medical AI</span>
     </footer>
+
+    <script is:inline>
+      (() => {
+        const key = 'li-lab-language';
+        const textNodes = document.querySelectorAll('[data-i18n]');
+        const toggle = document.querySelector('[data-lang-toggle]');
+        const toggleLabel = document.querySelector('[data-lang-toggle-label]');
+        const body = document.body;
+
+        const applyLanguage = (lang) => {
+          const safeLang = lang === 'en' ? 'en' : 'zh';
+          document.documentElement.lang = safeLang === 'en' ? 'en' : 'zh-CN';
+
+          textNodes.forEach((node) => {
+            const value = node.dataset[safeLang];
+            if (value) node.textContent = value;
+          });
+
+          if (toggleLabel) {
+            toggleLabel.textContent = safeLang === 'en' ? '中文' : 'EN';
+          }
+
+          if (body) {
+            const title = safeLang === 'en' ? body.dataset.titleEn : body.dataset.titleZh;
+            if (title) document.title = title;
+          }
+
+          localStorage.setItem(key, safeLang);
+        };
+
+        applyLanguage(localStorage.getItem(key) || 'zh');
+
+        if (toggle) {
+          toggle.addEventListener('click', () => {
+            const current = localStorage.getItem(key) || 'zh';
+            applyLanguage(current === 'zh' ? 'en' : 'zh');
+          });
+        }
+      })();
+
+      (() => {
+        const revealEls = document.querySelectorAll('.reveal');
+
+        if (!('IntersectionObserver' in window)) {
+          revealEls.forEach((el) => el.classList.add('is-visible'));
+          return;
+        }
+
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+                observer.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.1 }
+        );
+
+        revealEls.forEach((el) => observer.observe(el));
+      })();
+
+      (() => {
+        const glow = document.querySelector('.cursor-glow');
+        if (!glow) return;
+
+        window.addEventListener('pointermove', (event) => {
+          glow.style.setProperty('--x', `${event.clientX}px`);
+          glow.style.setProperty('--y', `${event.clientY}px`);
+          glow.classList.add('is-active');
+        });
+
+        window.addEventListener('pointerleave', () => {
+          glow.classList.remove('is-active');
+        });
+      })();
+
+      (() => {
+        const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (reduceMotion) return;
+
+        const canvas = document.getElementById('particle-canvas');
+        if (!canvas) return;
+
+        const ctx = canvas.getContext('2d');
+        let width = 0;
+        let height = 0;
+        let particles = [];
+        let frame = null;
+
+        const createParticles = () => {
+          const count = window.innerWidth < 640 ? 14 : window.innerWidth < 1024 ? 24 : 36;
+          particles = Array.from({ length: count }, () => ({
+            x: Math.random() * width,
+            y: Math.random() * height,
+            vx: (Math.random() - 0.5) * 0.16,
+            vy: (Math.random() - 0.5) * 0.16,
+            r: Math.random() * 1.2 + 0.7,
+          }));
+        };
+
+        const resize = () => {
+          const ratio = Math.min(window.devicePixelRatio || 1, 2);
+          width = window.innerWidth;
+          height = window.innerHeight;
+          canvas.width = Math.floor(width * ratio);
+          canvas.height = Math.floor(height * ratio);
+          canvas.style.width = `${width}px`;
+          canvas.style.height = `${height}px`;
+          ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+          createParticles();
+        };
+
+        const draw = () => {
+          ctx.clearRect(0, 0, width, height);
+
+          particles.forEach((p, index) => {
+            p.x += p.vx;
+            p.y += p.vy;
+
+            if (p.x < 0) p.x = width;
+            if (p.x > width) p.x = 0;
+            if (p.y < 0) p.y = height;
+            if (p.y > height) p.y = 0;
+
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(43, 143, 137, 0.16)';
+            ctx.fill();
+
+            for (let j = index + 1; j < particles.length; j++) {
+              const q = particles[j];
+              const dx = p.x - q.x;
+              const dy = p.y - q.y;
+              const dist = Math.sqrt(dx * dx + dy * dy);
+
+              if (dist < 105) {
+                ctx.beginPath();
+                ctx.moveTo(p.x, p.y);
+                ctx.lineTo(q.x, q.y);
+                ctx.strokeStyle = `rgba(43, 143, 137, ${0.04 * (1 - dist / 105)})`;
+                ctx.stroke();
+              }
+            }
+          });
+
+          frame = requestAnimationFrame(draw);
+        };
+
+        window.addEventListener('resize', resize);
+        resize();
+        draw();
+
+        window.addEventListener('beforeunload', () => {
+          if (frame) cancelAnimationFrame(frame);
+        });
+      })();
+    </script>
   </body>
 </html>
