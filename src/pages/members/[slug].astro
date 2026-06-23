@@ -1,0 +1,97 @@
+---
+import { members, site } from '../../data/lab';
+import '../../styles/global.css';
+
+export function getStaticPaths() {
+  return members.map((member) => ({
+    params: { slug: member.slug },
+    props: { member },
+  }));
+}
+
+const { member } = Astro.props;
+const pageTitle = `${member.name.zh} | ${site.labName.zh}`;
+---
+
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={`${member.name.zh} - ${member.role.zh}`} />
+    <title>{pageTitle}</title>
+  </head>
+
+  <body>
+    <header class="profile-site-header">
+      <div class="header-inner">
+        <a class="brand" href="/#top" aria-label="LiJin Lab home">
+          <span class="brand-mark">
+            <img src="/images/lab-logo.png" alt="" />
+          </span>
+          <span class="brand-text">
+            <strong>{site.labName.zh}</strong>
+            <small>{site.labNameZh.zh}</small>
+          </span>
+        </a>
+
+        <nav class="nav-links" aria-label="成员页面导航">
+          <a href="/#about">课题组简介</a>
+          <a href="/#research">研究方向</a>
+          <a href="/#people">团队成员</a>
+          <a href="/#publications">论文成果</a>
+          <a href="/#news">团队日常</a>
+          <a href="/#contact">联系我们</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="member-profile-page">
+      <section class="member-profile-shell">
+        <nav class="profile-breadcrumb" aria-label="Breadcrumb">
+          <a href="/#top">首页</a>
+          <span>/</span>
+          <a href="/#people">成员</a>
+          <span>/</span>
+          <span>{member.name.zh}</span>
+        </nav>
+
+        <div class="profile-title-bar">
+          <span></span>
+          <h1>{member.category}</h1>
+        </div>
+
+        <article class="profile-layout">
+          <figure class="profile-photo-wrap">
+            <img class="profile-photo" src={member.avatar} alt={`${member.name.zh} 头像`} />
+          </figure>
+
+          <div class="profile-content">
+            <p class="profile-label">{site.labName.zh}</p>
+            <h2>{member.name.zh}</h2>
+            <p class="profile-role">{member.role.zh}</p>
+
+            <div class="profile-topic">
+              <span>研究课题</span>
+              <strong>{member.topic?.zh ?? '数字病理'}</strong>
+            </div>
+
+            <div class="profile-text">
+              <p>{member.focus.zh}</p>
+              <p>个人主页内容后续可继续补充教育经历、科研项目、论文成果和联系方式。</p>
+            </div>
+
+            <div class="profile-tags">
+              {member.highlights?.map((tag) => <span>{tag}</span>)}
+            </div>
+
+            <div class="profile-actions">
+              <a class="button button-primary" href="/#people">返回团队成员</a>
+              {member.email && <a class="button button-secondary" href={`mailto:${member.email}`}>联系邮箱</a>}
+            </div>
+          </div>
+        </article>
+      </section>
+    </main>
+  </body>
+</html>

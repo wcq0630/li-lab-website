@@ -4,7 +4,6 @@ import {
   ui,
   stats,
   researchAreas,
-  projects,
   members,
   publications,
   news,
@@ -13,6 +12,13 @@ import {
 import '../styles/global.css';
 
 const currentYear = new Date().getFullYear();
+const publicationKeywords = ['全部', 'AI药物发现', '生物信息学', '单细胞多组学', '系统生物学', '医学AI'];
+const publicationYears = Array.from(new Set(publications.map((paper) => paper.year))).sort(
+  (a, b) => Number(b) - Number(a)
+);
+const memberFilters = ['全部', 'PI', '博士研究生', '研三', '研二', '研一'];
+const defaultMemberFilter = 'PI';
+const initialMemberCount = members.filter((member) => member.category === defaultMemberFilter).length;
 ---
 
 <!doctype html>
@@ -22,22 +28,24 @@ const currentYear = new Date().getFullYear();
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="Li-lab focuses on medical AI, bioinformatics, pharmacogenomics, and cancer systems biology."
+      content="LiJin Lab focuses on AI drug discovery, single-cell multi-omics, and digital pathology."
     />
-    <title>Li-lab | 智能医学与生物信息学实验室</title>
+    <title>LiJin Lab | AI药物发现、单细胞多组学和数字病理团队</title>
   </head>
 
   <body
-    data-title-zh="Li-lab | 智能医学与生物信息学实验室"
-    data-title-en="Li-lab | Laboratory for Intelligent Medicine and Bioinformatics"
+    data-title-zh="LiJin Lab | AI药物发现、单细胞多组学和数字病理团队"
+    data-title-en="LiJin Lab | AI Drug Discovery, Omics and Pathology Lab"
   >
     <canvas id="particle-canvas" aria-hidden="true"></canvas>
     <div class="cursor-glow" aria-hidden="true"></div>
 
     <header class="site-header">
       <div class="header-inner">
-        <a class="brand" href="#top" aria-label="Li-lab home">
-          <span class="brand-mark">Li</span>
+        <a class="brand" href="#top" aria-label="LiJin Lab home">
+          <span class="brand-mark">
+            <img src="/images/lab-logo.png" alt="" />
+          </span>
           <span class="brand-text">
             <strong data-i18n data-zh={site.labName.zh} data-en={site.labName.en}>{site.labName.zh}</strong>
             <small data-i18n data-zh={site.labNameZh.zh} data-en={site.labNameZh.en}>{site.labNameZh.zh}</small>
@@ -45,8 +53,8 @@ const currentYear = new Date().getFullYear();
         </a>
 
         <nav class="nav-links" aria-label="Primary navigation">
+          <a href="#about" data-i18n data-zh="课题组简介" data-en="About">课题组简介</a>
           <a href="#research" data-i18n data-zh={ui.nav.research.zh} data-en={ui.nav.research.en}>{ui.nav.research.zh}</a>
-          <a href="#projects" data-i18n data-zh={ui.nav.projects.zh} data-en={ui.nav.projects.en}>{ui.nav.projects.zh}</a>
           <a href="#people" data-i18n data-zh={ui.nav.people.zh} data-en={ui.nav.people.en}>{ui.nav.people.zh}</a>
           <a href="#publications" data-i18n data-zh={ui.nav.publications.zh} data-en={ui.nav.publications.en}>{ui.nav.publications.zh}</a>
           <a href="#news" data-i18n data-zh={ui.nav.news.zh} data-en={ui.nav.news.en}>{ui.nav.news.zh}</a>
@@ -61,8 +69,12 @@ const currentYear = new Date().getFullYear();
     </header>
 
     <main id="top">
-      <section class="hero section-shell">
-        <div class="hero-copy reveal">
+      <section class="hero hero-full">
+        <div class="hero-bg" aria-hidden="true">
+          <img src="/images/bio-hero.png" alt="" />
+        </div>
+        <div class="hero-inner section-shell">
+          <div class="hero-copy reveal">
           <p class="eyebrow">
             <span class="eyebrow-dot"></span>
             <span data-i18n data-zh={site.location.zh} data-en={site.location.en}>{site.location.zh}</span>
@@ -80,42 +92,98 @@ const currentYear = new Date().getFullYear();
             <a class="button button-primary" href="#research" data-i18n data-zh={ui.buttons.explore.zh} data-en={ui.buttons.explore.en}>
               {ui.buttons.explore.zh}
             </a>
-            <a class="button button-secondary" href="#contact" data-i18n data-zh={ui.buttons.join.zh} data-en={ui.buttons.join.en}>
+            <a class="button button-secondary" href="#publications" data-i18n data-zh={ui.buttons.join.zh} data-en={ui.buttons.join.en}>
               {ui.buttons.join.zh}
             </a>
           </div>
-        </div>
 
-        <div class="hero-visual reveal" aria-label="Abstract biomedical AI visualization">
-          <div class="visual-topline">
-            <span>Li-lab</span>
-            <span>Medical AI</span>
-          </div>
-
-          <div class="visual-grid">
-            {Array.from({ length: 24 }).map((_, index) => (
-              <span class={`visual-cell visual-cell-${(index % 6) + 1}`}></span>
+          <div class="hero-stats">
+            {stats.map((item) => (
+              <div class="hero-stat-card">
+                <strong>{item.value}</strong>
+                <span data-i18n data-zh={item.label.zh} data-en={item.label.en}>{item.label.zh}</span>
+              </div>
             ))}
           </div>
-
-          <div class="visual-card">
-            <span>Research Focus</span>
-            <strong>AI · Bioinformatics · Pharmacogenomics</strong>
-            <small>Cancer systems biology and translational modeling</small>
           </div>
         </div>
       </section>
+      
+      <section id="about" class="module-section module-section-about page-section">
+        <div class="about-section section-shell">
+        <div class="about-media about-photo-card reveal" aria-label="LiJin Lab team photo">
+          <img src="/images/team-photo.jpg" alt="LiJin Lab 团队合影" />
+        </div>
 
-      <section class="stats section-shell reveal">
-        {stats.map((item) => (
-          <div class="stat-card">
-            <strong>{item.value}</strong>
-            <span data-i18n data-zh={item.label.zh} data-en={item.label.en}>{item.label.zh}</span>
+        <div class="about-copy reveal">
+          <p class="eyebrow" data-i18n data-zh="Laboratory Introduction" data-en="Laboratory Introduction">
+            Laboratory Introduction
+          </p>
+
+          <h2
+            data-i18n
+            data-zh="AI药物发现、单细胞多组学和数字病理团队"
+            data-en="AI Drug Discovery, Omics and Pathology Lab"
+          >
+            AI药物发现、单细胞多组学和数字病理团队
+          </h2>
+
+          <p
+            data-i18n
+            data-zh="本研究团队现有教师5人，其中教授2人、博士4人，现有博士研究生1人、硕士研究生11人，长期致力于人工智能在生物医学大数据领域的研究。"
+            data-en="The team currently has five faculty members, including two professors and four PhD holders, together with one doctoral student and eleven master students. The team has long focused on artificial intelligence for biomedical big data."
+          >
+            本研究团队现有教师5人，其中教授2人、博士4人，现有博士研究生1人、硕士研究生11人，长期致力于人工智能在生物医学大数据领域的研究。
+          </p>
+
+          <p
+            data-i18n
+            data-zh="团队主持国家自然科学基金2项、省自然科学基金6项，发表SCI论文60余篇，围绕 AI 药物发现、单细胞多组学和数字病理开展方法创新、资源建设与临床转化探索。"
+            data-en="The team has led two National Natural Science Foundation of China projects and six provincial natural science foundation projects, and has published more than 60 SCI papers across AI drug discovery, single-cell multi-omics and digital pathology."
+          >
+            团队主持国家自然科学基金2项、省自然科学基金6项，发表SCI论文60余篇，围绕 AI 药物发现、单细胞多组学和数字病理开展方法创新、资源建设与临床转化探索。
+          </p>
+
+          <div class="about-feature-grid">
+            <div class="about-feature-card">
+              <strong data-i18n data-zh="研究定位" data-en="Research Scope">研究定位</strong>
+              <span
+                data-i18n
+                data-zh="生物医学大数据与智能医学交叉"
+                data-en="Biomedical big data and intelligent medicine"
+              >
+                生物医学大数据与智能医学交叉
+              </span>
+            </div>
+
+            <div class="about-feature-card">
+              <strong data-i18n data-zh="方法重点" data-en="Methodological Focus">方法重点</strong>
+              <span
+                data-i18n
+                data-zh="AI建模、统计学习、多组学整合与图像分析"
+                data-en="AI modeling, statistical learning, multi-omics integration and image analysis"
+              >
+                AI建模、统计学习、多组学整合与图像分析
+              </span>
+            </div>
+
+            <div class="about-feature-card">
+              <strong data-i18n data-zh="转化目标" data-en="Translational Aim">转化目标</strong>
+              <span
+                data-i18n
+                data-zh="服务药物发现、免疫治疗、数字病理与临床转化"
+                data-en="Drug discovery, immunotherapy, digital pathology and clinical translation"
+              >
+                服务药物发现、免疫治疗、数字病理与临床转化
+              </span>
+            </div>
           </div>
-        ))}
+        </div>
+        </div>
       </section>
 
-      <section id="research" class="section-shell page-section">
+      <section id="research" class="module-section module-section-soft page-section">
+        <div class="section-shell">
         <div class="section-heading reveal">
           <p class="eyebrow" data-i18n data-zh={ui.sections.researchEyebrow.zh} data-en={ui.sections.researchEyebrow.en}>
             {ui.sections.researchEyebrow.zh}
@@ -142,88 +210,196 @@ const currentYear = new Date().getFullYear();
             </article>
           ))}
         </div>
-      </section>
-
-      <section id="projects" class="section-shell page-section">
-        <div class="section-heading reveal">
-          <p class="eyebrow" data-i18n data-zh={ui.sections.projectsEyebrow.zh} data-en={ui.sections.projectsEyebrow.en}>
-            {ui.sections.projectsEyebrow.zh}
-          </p>
-          <h2 data-i18n data-zh={ui.sections.projectsTitle.zh} data-en={ui.sections.projectsTitle.en}>
-            {ui.sections.projectsTitle.zh}
-          </h2>
-        </div>
-
-        <div class="project-list">
-          {projects.map((project) => (
-            <article class="project-card reveal tilt-card">
-              <div>
-                <span class="status" data-i18n data-zh={project.status.zh} data-en={project.status.en}>{project.status.zh}</span>
-                <h3 data-i18n data-zh={project.title.zh} data-en={project.title.en}>{project.title.zh}</h3>
-                <p data-i18n data-zh={project.description.zh} data-en={project.description.en}>{project.description.zh}</p>
-              </div>
-              <div class="tag-row">
-                {project.tags.map((tag) => (
-                  <span data-i18n data-zh={tag.zh} data-en={tag.en}>{tag.zh}</span>
-                ))}
-              </div>
-            </article>
-          ))}
         </div>
       </section>
 
-      <section id="people" class="section-shell page-section">
-        <div class="section-heading reveal">
-          <p class="eyebrow" data-i18n data-zh={ui.sections.peopleEyebrow.zh} data-en={ui.sections.peopleEyebrow.en}>
-            {ui.sections.peopleEyebrow.zh}
-          </p>
-          <h2 data-i18n data-zh={ui.sections.peopleTitle.zh} data-en={ui.sections.peopleTitle.en}>
-            {ui.sections.peopleTitle.zh}
-          </h2>
-        </div>
+      <section id="people" class="module-section page-section">
+        <div class="section-shell">
+        <div class="people-browser reveal" data-member-browser>
+          <div class="people-header">
+            <div>
+              <p class="eyebrow" data-i18n data-zh={ui.sections.peopleEyebrow.zh} data-en={ui.sections.peopleEyebrow.en}>
+                {ui.sections.peopleEyebrow.zh}
+              </p>
+              <h2 data-i18n data-zh={ui.sections.peopleTitle.zh} data-en={ui.sections.peopleTitle.en}>
+                {ui.sections.peopleTitle.zh}
+              </h2>
+              <p
+                class="people-note"
+                data-i18n
+                data-zh="按 PI、博士研究生、研三、研二、研一筛选团队成员。教师信息已先行整理，研究生名单可继续补充。"
+                data-en="Filter team members by PI, PhD student, and master student year. Faculty profiles are listed first; student names can be added later."
+              >
+                按 PI、博士研究生、研三、研二、研一筛选团队成员。教师信息已先行整理，研究生名单可继续补充。
+              </p>
+            </div>
+            <div class="people-count">
+              <strong data-member-count>{initialMemberCount}</strong>
+              <span>成员条目</span>
+            </div>
+          </div>
 
-        <div class="card-grid people-grid">
-          {members.map((member) => (
-            <article class="member-card reveal tilt-card">
-              <img src={member.avatar} alt="" loading="lazy" />
-              <h3 data-i18n data-zh={member.name.zh} data-en={member.name.en}>{member.name.zh}</h3>
-              <p class="member-role" data-i18n data-zh={member.role.zh} data-en={member.role.en}>{member.role.zh}</p>
-              <p data-i18n data-zh={member.focus.zh} data-en={member.focus.en}>{member.focus.zh}</p>
-            </article>
-          ))}
-        </div>
-      </section>
+          <div class="people-filter-bar" aria-label="Member filters">
+            {memberFilters.map((filter) => (
+              <button
+                class={`member-filter ${filter === defaultMemberFilter ? 'is-active' : ''}`}
+                type="button"
+                data-member-filter={filter === '全部' ? 'all' : filter}
+              >
+                {filter}
+              </button>
+            ))}
+          </div>
 
-      <section id="publications" class="section-shell page-section">
-        <div class="section-heading reveal">
-          <p class="eyebrow" data-i18n data-zh={ui.sections.publicationsEyebrow.zh} data-en={ui.sections.publicationsEyebrow.en}>
-            {ui.sections.publicationsEyebrow.zh}
-          </p>
-          <h2 data-i18n data-zh={ui.sections.publicationsTitle.zh} data-en={ui.sections.publicationsTitle.en}>
-            {ui.sections.publicationsTitle.zh}
-          </h2>
-        </div>
-
-        <div class="publication-list">
-          {publications.map((paper) => (
-            <article class="publication-item reveal">
-              <div class="publication-year">{paper.year}</div>
-              <div>
-                <h3 data-i18n data-zh={paper.title.zh} data-en={paper.title.en}>{paper.title.zh}</h3>
-                <p>{paper.authors}</p>
-                <p class="venue" data-i18n data-zh={paper.venue.zh} data-en={paper.venue.en}>{paper.venue.zh}</p>
-                <div class="tag-row">
-                  {paper.tags.map((tag) => (
-                    <span data-i18n data-zh={tag.zh} data-en={tag.en}>{tag.zh}</span>
-                  ))}
+          <div class="people-grid">
+            {members.map((member) => (
+              <a
+                class="member-card reveal"
+                href={`/members/${member.slug}/`}
+                data-member-card
+                data-category={member.category}
+                hidden={member.category !== defaultMemberFilter}
+              >
+                <div class="member-topline">
+                  <span class="member-category">{member.category}</span>
+                  <span class="member-email">{member.email ? '邮箱' : '主页'}</span>
                 </div>
-              </div>
-            </article>
-          ))}
+                <div class="member-main">
+                  <img src={member.avatar} alt="" loading="lazy" />
+                  <div>
+                    <h3 data-i18n data-zh={member.name.zh} data-en={member.name.en}>{member.name.zh}</h3>
+                    <p class="member-role" data-i18n data-zh={member.role.zh} data-en={member.role.en}>{member.role.zh}</p>
+                  </div>
+                </div>
+                <p class="member-focus" data-i18n data-zh={member.focus.zh} data-en={member.focus.en}>{member.focus.zh}</p>
+                <div class="member-tags">
+                  {member.topic && <span>{member.topic.zh}</span>}
+                  {member.highlights?.map((tag) => <span>{tag}</span>)}
+                </div>
+                <span class="member-card-action">查看个人介绍</span>
+              </a>
+            ))}
+          </div>
+          <p class="people-empty" data-member-empty hidden>当前分类下暂无成员，后续名单补充后会显示在这里。</p>
+        </div>
         </div>
       </section>
 
-      <section id="news" class="section-shell page-section">
+      <section id="publications" class="module-section module-section-soft page-section">
+        <div class="section-shell">
+        <div class="publication-browser reveal" data-publication-browser>
+          <div class="publication-header">
+            <div>
+              <p class="eyebrow publication-eyebrow" data-i18n data-zh={ui.sections.publicationsEyebrow.zh} data-en={ui.sections.publicationsEyebrow.en}>
+                {ui.sections.publicationsEyebrow.zh}
+              </p>
+              <h2 data-i18n data-zh={ui.sections.publicationsTitle.zh} data-en={ui.sections.publicationsTitle.en}>
+                {ui.sections.publicationsTitle.zh}
+              </h2>
+              <p
+                class="publication-note"
+                data-i18n
+                data-zh="以下为团队已发表论文列表。网页中保留共同第一作者（#）和通讯作者（*）标记，点击题名可跳转至期刊或 DOI 页面。"
+                data-en="Selected representative publications. Co-first authors (#) and corresponding authors (*) are retained; click each title to open the journal or DOI page."
+              >
+                以下为团队代表性论著列表。网页中保留共同第一作者（#）和通讯作者（*）标记，点击题名可跳转至期刊或 DOI 页面。
+              </p>
+            </div>
+            <a class="publication-contact" href="#contact" data-i18n data-zh="联系获取完整列表" data-en="Request Full List">联系获取完整列表</a>
+          </div>
+
+          <div class="publication-toolbar" aria-label="Publication filters">
+            <div class="publication-search-wrap">
+              <input
+                class="publication-search"
+                type="search"
+                placeholder="搜索题名、作者、期刊或 DOI"
+                aria-label="搜索题名、作者、期刊或 DOI"
+                data-pub-search
+              />
+            </div>
+
+            <div class="publication-filter-group" aria-label="Keyword filters">
+              {publicationKeywords.map((keyword, index) => (
+                <button
+                  class={`pub-filter ${index === 0 ? 'is-active' : ''}`}
+                  type="button"
+                  data-pub-keyword={keyword === '全部' ? 'all' : keyword}
+                >
+                  {keyword}
+                </button>
+              ))}
+            </div>
+
+            <div class="publication-filter-group" aria-label="Year filters">
+              <button class="pub-filter is-active" type="button" data-pub-year="all">全部年份</button>
+              {publicationYears.map((year) => (
+                <button class="pub-filter" type="button" data-pub-year={year}>{year}</button>
+              ))}
+            </div>
+          </div>
+
+          <div class="publication-result-line">
+            <span>共 <strong data-pub-count>{publications.length}</strong> 篇论文</span>
+            <span>按关键词和年份实时筛选</span>
+          </div>
+
+          <div class="publication-list">
+            {publications.map((paper) => {
+              const keywords = paper.tags.map((tag) => tag.zh).join('|');
+              const searchText = [
+                paper.year,
+                paper.title.zh,
+                paper.title.en,
+                paper.authors,
+                paper.venue.zh,
+                paper.venue.en,
+                paper.doi || '',
+                keywords,
+              ].join(' ');
+
+              return (
+                <article
+                  class="publication-item reveal"
+                  data-pub-card
+                  data-year={paper.year}
+                  data-keywords={keywords}
+                  data-search={searchText}
+                >
+                  <div class="publication-year">{paper.year}</div>
+                  <div class="publication-body">
+                    <a class="publication-title" href={paper.link} target="_blank" rel="noopener noreferrer">
+                      <span data-i18n data-zh={paper.title.zh} data-en={paper.title.en}>{paper.title.zh}</span>
+                    </a>
+                    <p class="publication-authors">{paper.authors}</p>
+                    <p class="venue" data-i18n data-zh={paper.venue.zh} data-en={paper.venue.en}>{paper.venue.zh}</p>
+                    <div class="publication-meta-row">
+                      <div class="tag-row">
+                        <span data-i18n data-zh="论文" data-en="Paper">论文</span>
+                        {paper.tags.map((tag) => (
+                          <span data-i18n data-zh={tag.zh} data-en={tag.en}>{tag.zh}</span>
+                        ))}
+                        {paper.representative && <span class="tag-highlight" data-i18n data-zh="代表性" data-en="Representative">代表性</span>}
+                      </div>
+                      {paper.doi && (
+                        <a class="doi-link" href={paper.link} target="_blank" rel="noopener noreferrer">
+                          DOI
+                        </a>
+                      )}
+                    </div>
+                  </div>
+                </article>
+              );
+            })}
+          </div>
+
+          <p class="publication-empty" data-pub-empty hidden>未找到匹配的论文，请调整关键词、年份或搜索内容。</p>
+        </div>
+        </div>
+      </section>
+
+      <section id="news" class="module-section page-section">
+        <div class="section-shell">
         <div class="section-heading reveal">
           <p class="eyebrow" data-i18n data-zh={ui.sections.newsEyebrow.zh} data-en={ui.sections.newsEyebrow.en}>
             {ui.sections.newsEyebrow.zh}
@@ -242,32 +418,43 @@ const currentYear = new Date().getFullYear();
             </article>
           ))}
         </div>
+        </div>
       </section>
 
-      <section id="contact" class="contact-section section-shell reveal">
-        <div>
-          <p class="eyebrow" data-i18n data-zh={ui.sections.contactEyebrow.zh} data-en={ui.sections.contactEyebrow.en}>
-            {ui.sections.contactEyebrow.zh}
-          </p>
-          <h2 data-i18n data-zh={ui.sections.contactTitle.zh} data-en={ui.sections.contactTitle.en}>
-            {ui.sections.contactTitle.zh}
-          </h2>
-        </div>
-        <div class="contact-card">
-          <p>
-            <strong>Email</strong>
-            <a href={`mailto:${site.email}`}>{site.email}</a>
-          </p>
-          <p>
-            <strong>Address</strong>
-            <span data-i18n data-zh={site.address.zh} data-en={site.address.en}>{site.address.zh}</span>
-          </p>
+      <section id="contact" class="module-section module-section-contact page-section">
+        <div class="contact-section section-shell reveal">
+          <div>
+            <p class="eyebrow" data-i18n data-zh={ui.sections.contactEyebrow.zh} data-en={ui.sections.contactEyebrow.en}>
+              {ui.sections.contactEyebrow.zh}
+            </p>
+            <h2 data-i18n data-zh={ui.sections.contactTitle.zh} data-en={ui.sections.contactTitle.en}>
+              {ui.sections.contactTitle.zh}
+            </h2>
+            <p
+              class="contact-intro"
+              data-i18n
+              data-zh="本团队招收生物学（生物物理学）博士研究生，智能科学与技术（学硕）和电子信息（专硕）硕士研究生，欢迎报考、交流与合作。"
+              data-en="The team welcomes PhD students in Biology (Biophysics), and master students in Intelligent Science and Technology or Electronic Information. Applications, exchange and collaboration are welcome."
+            >
+              本团队招收生物学（生物物理学）博士研究生，智能科学与技术（学硕）和电子信息（专硕）硕士研究生，欢迎报考、交流与合作。
+            </p>
+          </div>
+          <div class="contact-card">
+            <p>
+              <strong>Email</strong>
+              <a href={`mailto:${site.email}`}>{site.email}</a>
+            </p>
+            <p>
+              <strong>Address</strong>
+              <span data-i18n data-zh={site.address.zh} data-en={site.address.en}>{site.address.zh}</span>
+            </p>
+          </div>
         </div>
       </section>
     </main>
 
     <footer class="site-footer">
-      <span>© {currentYear} Li-lab</span>
+      <span>© {currentYear} LiJin Lab</span>
       <span>Academic communication · Collaboration · Medical AI</span>
     </footer>
 
@@ -308,6 +495,110 @@ const currentYear = new Date().getFullYear();
             applyLanguage(current === 'zh' ? 'en' : 'zh');
           });
         }
+      })();
+
+      (() => {
+        const browser = document.querySelector('[data-publication-browser]');
+        if (!browser) return;
+
+        const keywordButtons = Array.from(browser.querySelectorAll('[data-pub-keyword]'));
+        const yearButtons = Array.from(browser.querySelectorAll('[data-pub-year]'));
+        const cards = Array.from(browser.querySelectorAll('[data-pub-card]'));
+        const search = browser.querySelector('[data-pub-search]');
+        const count = browser.querySelector('[data-pub-count]');
+        const empty = browser.querySelector('[data-pub-empty]');
+        const state = {
+          keyword: 'all',
+          year: 'all',
+          query: '',
+        };
+
+        const normalize = (value) => (value || '').toString().trim().toLowerCase();
+
+        const updateActive = (buttons, attr, value) => {
+          buttons.forEach((button) => {
+            button.classList.toggle('is-active', button.dataset[attr] === value);
+          });
+        };
+
+        const applyFilters = () => {
+          let visibleCount = 0;
+          const query = normalize(state.query);
+
+          cards.forEach((card) => {
+            const cardKeywords = (card.dataset.keywords || '').split('|');
+            const keywordMatch = state.keyword === 'all' || cardKeywords.includes(state.keyword);
+            const yearMatch = state.year === 'all' || card.dataset.year === state.year;
+            const searchMatch = !query || normalize(card.dataset.search).includes(query);
+            const shouldShow = keywordMatch && yearMatch && searchMatch;
+
+            card.hidden = !shouldShow;
+            if (shouldShow) visibleCount += 1;
+          });
+
+          if (count) count.textContent = visibleCount;
+          if (empty) empty.hidden = visibleCount !== 0;
+          updateActive(keywordButtons, 'pubKeyword', state.keyword);
+          updateActive(yearButtons, 'pubYear', state.year);
+        };
+
+        keywordButtons.forEach((button) => {
+          button.addEventListener('click', () => {
+            state.keyword = button.dataset.pubKeyword || 'all';
+            applyFilters();
+          });
+        });
+
+        yearButtons.forEach((button) => {
+          button.addEventListener('click', () => {
+            state.year = button.dataset.pubYear || 'all';
+            applyFilters();
+          });
+        });
+
+        if (search) {
+          search.addEventListener('input', () => {
+            state.query = search.value;
+            applyFilters();
+          });
+        }
+
+        applyFilters();
+      })();
+
+      (() => {
+        const browser = document.querySelector('[data-member-browser]');
+        if (!browser) return;
+
+        const buttons = Array.from(browser.querySelectorAll('[data-member-filter]'));
+        const cards = Array.from(browser.querySelectorAll('[data-member-card]'));
+        const count = browser.querySelector('[data-member-count]');
+        const empty = browser.querySelector('[data-member-empty]');
+
+        const applyFilter = (category) => {
+          let visibleCount = 0;
+
+          cards.forEach((card) => {
+            const shouldShow = category === 'all' || card.dataset.category === category;
+            card.hidden = !shouldShow;
+            if (shouldShow) visibleCount += 1;
+          });
+
+          buttons.forEach((button) => {
+            button.classList.toggle('is-active', button.dataset.memberFilter === category);
+          });
+
+          if (count) count.textContent = visibleCount;
+          if (empty) empty.hidden = visibleCount !== 0;
+        };
+
+        buttons.forEach((button) => {
+          button.addEventListener('click', () => {
+            applyFilter(button.dataset.memberFilter || 'all');
+          });
+        });
+
+        applyFilter('PI');
       })();
 
       (() => {
