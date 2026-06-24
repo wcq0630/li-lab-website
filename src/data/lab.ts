@@ -249,7 +249,7 @@ export const members = [
     '硕士研究生 / 研二',
     'MSc Student, Year 2',
     '/images/members/cj.png',
-    '研究方向：药物微观世界的探究，研三核动力牛马。'
+    '研究课题：药物微观世界的探究，研三核动力牛马。'
   ),
   makeStudentMember('研二', '蔡幸君', 'Xingjun Cai', 'xingjun-cai', '硕士研究生 / 研二', 'MSc Student, Year 2'),
   makeStudentMember('研一', '郭婷婷', 'Tingting Guo', 'tingting-guo', '硕士研究生 / 研一', 'MSc Student, Year 1', '/images/members/gtt.jpg'),
@@ -262,10 +262,19 @@ export const members = [
     '硕士研究生 / 研一',
     'MSc Student, Year 1',
     '/images/members/jjh.jpg',
-    '研究方向：医学影像与多组学数据融合分析，重点关注慢性肾病等复杂疾病的分子机制、疾病异质性及精准分层研究，利用MRI、病理影像、空间转录组和单细胞组学等多模态数据探索疾病进展规律与潜在治疗靶点。'
+    '研究课题：医学影像与多组学数据融合分析，重点关注慢性肾病等复杂疾病的分子机制、疾病异质性及精准分层研究，利用MRI、病理影像、空间转录组和单细胞组学等多模态数据探索疾病进展规律与潜在治疗靶点。'
   ),
   makeStudentMember('研一', '刘禹希', 'Yuxi Liu', 'yuxi-liu', '硕士研究生 / 研一', 'MSc Student, Year 1', '/images/members/lyx.jpg'),
-  makeStudentMember('研一', '王昌骐', 'Changqi Wang', 'changqi-wang', '硕士研究生 / 研一', 'MSc Student, Year 1', '/images/members/wcq.jpg'),
+  makeStudentMember(
+    '研一',
+    '王昌骐',
+    'Changqi Wang',
+    'changqi-wang',
+    '硕士研究生 / 研一',
+    'MSc Student, Year 1',
+    '/images/members/wcq.jpg',
+    '研究课题：主要从事全切片病理图像（WSI）的人工智能分析研究，重点关注真实医院小样本场景下的弱监督学习、患者参照式建模与可解释病理图像分类。'
+  ),
   makeStudentMember('研一', '谢欣宜', 'Xinyi Xie', 'xinyi-xie', '硕士研究生 / 研一', 'MSc Student, Year 1', '/images/members/xxy.jpg'),
 ];
 

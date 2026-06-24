@@ -1024,35 +1024,6 @@ button {
   font-weight: 850;
 }
 
-.profile-topic {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  align-items: center;
-  margin-top: 4px;
-}
-
-.profile-topic span,
-.profile-topic strong {
-  display: inline-flex;
-  align-items: center;
-  min-height: 34px;
-  padding: 0 13px;
-  border-radius: 999px;
-}
-
-.profile-topic span {
-  color: var(--muted);
-  background: rgba(232, 244, 255, 0.7);
-  border: 1px solid rgba(47, 128, 201, 0.12);
-}
-
-.profile-topic strong {
-  color: var(--primary-dark);
-  background: #fff3cf;
-  border: 1px solid rgba(242, 201, 76, 0.45);
-}
-
 .profile-text {
   color: #152f4a;
   font-size: 1.02rem;
