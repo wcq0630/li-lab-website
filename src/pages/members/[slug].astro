@@ -11,6 +11,7 @@ export function getStaticPaths() {
 
 const { member } = Astro.props;
 const pageTitle = `${member.name.zh} | ${site.labName.zh}`;
+const peopleReturnHref = '/?from=member#people';
 ---
 
 <!doctype html>
@@ -38,7 +39,7 @@ const pageTitle = `${member.name.zh} | ${site.labName.zh}`;
         <nav class="nav-links" aria-label="成员页面导航">
           <a href="/#about">课题组简介</a>
           <a href="/#research">研究方向</a>
-          <a href="/#people">团队成员</a>
+          <a href={peopleReturnHref} data-people-return>团队成员</a>
           <a href="/#publications">论文成果</a>
           <a href="/#news">团队日常</a>
           <a href="/#contact">联系我们</a>
@@ -51,7 +52,7 @@ const pageTitle = `${member.name.zh} | ${site.labName.zh}`;
         <nav class="profile-breadcrumb" aria-label="Breadcrumb">
           <a href="/#top">首页</a>
           <span>/</span>
-          <a href="/#people">成员</a>
+          <a href={peopleReturnHref} data-people-return>成员</a>
           <span>/</span>
           <span>{member.name.zh}</span>
         </nav>
@@ -81,17 +82,27 @@ const pageTitle = `${member.name.zh} | ${site.labName.zh}`;
               <p>个人主页内容后续可继续补充教育经历、科研项目、论文成果和联系方式。</p>
             </div>
 
-            <div class="profile-tags">
-              {member.highlights?.map((tag) => <span>{tag}</span>)}
-            </div>
-
             <div class="profile-actions">
-              <a class="button button-primary" href="/#people">返回团队成员</a>
+              <a class="button button-primary" href={peopleReturnHref} data-people-return>返回团队成员</a>
               {member.email && <a class="button button-secondary" href={`mailto:${member.email}`}>联系邮箱</a>}
             </div>
           </div>
         </article>
       </section>
     </main>
+
+    <script>
+      const params = new URLSearchParams(window.location.search);
+      const filter = params.get('memberFilter') || sessionStorage.getItem('li-lab-member-filter') || 'PI';
+
+      document.querySelectorAll('[data-people-return]').forEach((link) => {
+        const url = new URL('/', window.location.origin);
+        if (filter && filter !== 'PI') {
+          url.searchParams.set('memberFilter', filter);
+        }
+        url.hash = 'people';
+        link.setAttribute('href', `${url.pathname}${url.search}${url.hash}`);
+      });
+    </script>
   </body>
 </html>

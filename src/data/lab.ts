@@ -62,8 +62,12 @@ export const site = {
   },
   email: 'lijin@muhn.edu.cn',
   address: {
-    zh: '海南医科大学 智能医学与技术学院（大数据研究中心）',
-    en: 'School of Intelligent Medicine and Technology, Hainan Medical University',
+    zh: '海南省海口市龙华区椰海大道234号 海南医科大学润深楼408-2',
+    en: 'Room 408-2, Runshen Building, Hainan Medical University, 234 Yehai Avenue, Longhua District, Haikou, Hainan',
+  },
+  unit: {
+    zh: '海南医科大学（海南省医学科学院）智能医学与技术学院',
+    en: 'School of Intelligent Medicine and Technology, Hainan Medical University / Hainan Academy of Medical Sciences',
   },
 };
 
@@ -150,7 +154,9 @@ const makeStudentMember = (
   slug: string,
   roleZh: string,
   roleEn: string,
-  avatar = defaultMemberAvatar
+  avatar = defaultMemberAvatar,
+  focusZh = '研究课题：数字病理。围绕病理图像智能分析、多模态数据融合与生物医学大数据方向开展课题训练，具体内容后续补充。',
+  focusEn = 'Research topic: Digital Pathology. The detailed research profile will be completed later.'
 ) => ({
   slug,
   category,
@@ -158,8 +164,8 @@ const makeStudentMember = (
   role: { zh: roleZh, en: roleEn },
   topic: digitalPathologyTopic,
   focus: {
-    zh: '研究课题：数字病理。围绕病理图像智能分析、多模态数据融合与生物医学大数据方向开展课题训练，具体内容后续补充。',
-    en: 'Research topic: Digital Pathology. The detailed research profile will be completed later.',
+    zh: focusZh,
+    en: focusEn,
   },
   highlights: ['数字病理', '智能医学', '课题待补充'],
   avatar,
@@ -235,12 +241,30 @@ export const members = [
   makeStudentMember('研三', '刘新颖', 'Xinying Liu', 'xinying-liu', '硕士研究生 / 研三', 'MSc Student, Year 3'),
   makeStudentMember('研三', '王学峰', 'Xuefeng Wang', 'xuefeng-wang', '硕士研究生 / 研三', 'MSc Student, Year 3', '/images/members/wxf.jpg'),
   makeStudentMember('研三', '张瑞杰', 'Ruijie Zhang', 'ruijie-zhang', '硕士研究生 / 研三', 'MSc Student, Year 3', '/images/members/zrj.jpg'),
-  makeStudentMember('研二', '陈建', 'Jian Chen', 'jian-chen', '硕士研究生 / 研二', 'MSc Student, Year 2', '/images/members/cj.jpg'),
+  makeStudentMember(
+    '研二',
+    '陈建',
+    'Jian Chen',
+    'jian-chen', 
+    '硕士研究生 / 研二',
+    'MSc Student, Year 2',
+    '/images/members/cj.png',
+    '研究方向：药物微观世界的探究，研三核动力牛马。'
+  ),
   makeStudentMember('研二', '蔡幸君', 'Xingjun Cai', 'xingjun-cai', '硕士研究生 / 研二', 'MSc Student, Year 2'),
   makeStudentMember('研一', '郭婷婷', 'Tingting Guo', 'tingting-guo', '硕士研究生 / 研一', 'MSc Student, Year 1', '/images/members/gtt.jpg'),
   makeStudentMember('研一', '邹大宇', 'Dayu Zou', 'dayu-zou', '硕士研究生 / 研一', 'MSc Student, Year 1', '/images/members/zdy.jpg'),
-  makeStudentMember('研一', '吉家宏', 'Jiahong Ji', 'jiahong-ji', '硕士研究生 / 研一', 'MSc Student, Year 1', '/images/members/jjh.jpg'),
-  makeStudentMember('研一', '刘禹希', 'Yuxi Liu', 'yuxi-liu', '硕士研究生 / 研一', 'MSc Student, Year 1'),
+  makeStudentMember(
+    '研一',
+    '吉家宏',
+    'Jiahong Ji',
+    'jiahong-ji',
+    '硕士研究生 / 研一',
+    'MSc Student, Year 1',
+    '/images/members/jjh.jpg',
+    '研究方向：医学影像与多组学数据融合分析，重点关注慢性肾病等复杂疾病的分子机制、疾病异质性及精准分层研究，利用MRI、病理影像、空间转录组和单细胞组学等多模态数据探索疾病进展规律与潜在治疗靶点。'
+  ),
+  makeStudentMember('研一', '刘禹希', 'Yuxi Liu', 'yuxi-liu', '硕士研究生 / 研一', 'MSc Student, Year 1', '/images/members/lyx.jpg'),
   makeStudentMember('研一', '王昌骐', 'Changqi Wang', 'changqi-wang', '硕士研究生 / 研一', 'MSc Student, Year 1', '/images/members/wcq.jpg'),
   makeStudentMember('研一', '谢欣宜', 'Xinyi Xie', 'xinyi-xie', '硕士研究生 / 研一', 'MSc Student, Year 1', '/images/members/xxy.jpg'),
 ];
@@ -482,6 +506,35 @@ export const publications = [
     tags: [
       { zh: '医学AI', en: 'Medical AI' },
     ],
+  },
+];
+
+export const labLife = [
+  {
+    year: '2026',
+    title: {
+      zh: '2026届毕业合影',
+      en: 'Graduation Photo 2026',
+    },
+    summary: {
+      zh: '毕业季的团队合影，记录课题组共同成长、并肩前行的时刻。',
+      en: 'A graduation season group photo capturing a shared moment of growth and teamwork.',
+    },
+    image: '/images/lab/graduation-2026-web.jpg',
+    feature: true,
+  },
+  {
+    year: '2025',
+    title: {
+      zh: '2025届毕业合影',
+      en: 'Graduation Photo 2025',
+    },
+    summary: {
+      zh: '近年毕业合影，保留属于课题组的阶段性记忆。',
+      en: 'A recent graduation photo preserving one of the lab’s milestone memories.',
+    },
+    image: '/images/lab/graduation-2025.png',
+    feature: false,
   },
 ];
 

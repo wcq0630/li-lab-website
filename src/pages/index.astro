@@ -6,7 +6,7 @@ import {
   researchAreas,
   members,
   publications,
-  news,
+  labLife,
 } from '../data/lab';
 
 import '../styles/global.css';
@@ -25,6 +25,7 @@ const initialMemberCount = members.filter((member) => member.category === defaul
 <html lang="zh-CN">
   <head>
     <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
@@ -272,10 +273,6 @@ const initialMemberCount = members.filter((member) => member.category === defaul
                   </div>
                 </div>
                 <p class="member-focus" data-i18n data-zh={member.focus.zh} data-en={member.focus.en}>{member.focus.zh}</p>
-                <div class="member-tags">
-                  {member.topic && <span>{member.topic.zh}</span>}
-                  {member.highlights?.map((tag) => <span>{tag}</span>)}
-                </div>
                 <span class="member-card-action">查看个人介绍</span>
               </a>
             ))}
@@ -305,7 +302,6 @@ const initialMemberCount = members.filter((member) => member.category === defaul
                 以下为团队代表性论著列表。网页中保留共同第一作者（#）和通讯作者（*）标记，点击题名可跳转至期刊或 DOI 页面。
               </p>
             </div>
-            <a class="publication-contact" href="#contact" data-i18n data-zh="联系获取完整列表" data-en="Request Full List">联系获取完整列表</a>
           </div>
 
           <div class="publication-toolbar" aria-label="Publication filters">
@@ -400,24 +396,36 @@ const initialMemberCount = members.filter((member) => member.category === defaul
 
       <section id="news" class="module-section page-section">
         <div class="section-shell">
-        <div class="section-heading reveal">
-          <p class="eyebrow" data-i18n data-zh={ui.sections.newsEyebrow.zh} data-en={ui.sections.newsEyebrow.en}>
-            {ui.sections.newsEyebrow.zh}
-          </p>
-          <h2 data-i18n data-zh={ui.sections.newsTitle.zh} data-en={ui.sections.newsTitle.en}>
-            {ui.sections.newsTitle.zh}
-          </h2>
-        </div>
+          <div class="lab-life-layout reveal">
+            <div class="lab-life-intro">
+              <p class="eyebrow" data-i18n data-zh={ui.sections.newsEyebrow.zh} data-en={ui.sections.newsEyebrow.en}>
+                {ui.sections.newsEyebrow.zh}
+              </p>
+              <h2 data-i18n data-zh={ui.sections.newsTitle.zh} data-en={ui.sections.newsTitle.en}>
+                {ui.sections.newsTitle.zh}
+              </h2>
+              <p
+                data-i18n
+                data-zh="这里用于记录课题组毕业季、组会、团建、竞赛、学术会议和日常瞬间。后续新增照片时，可以继续按年份和主题扩展成照片故事墙。"
+                data-en="A visual wall for graduation seasons, meetings, outings, competitions, conferences and everyday lab moments."
+              >
+                这里用于记录课题组毕业季、组会、团建、竞赛、学术会议和日常瞬间。后续新增照片时，可以继续按年份和主题扩展成照片故事墙。
+              </p>
+            </div>
 
-        <div class="news-list">
-          {news.map((item) => (
-            <article class="news-item reveal">
-              <time>{item.date}</time>
-              <h3 data-i18n data-zh={item.title.zh} data-en={item.title.en}>{item.title.zh}</h3>
-              <p data-i18n data-zh={item.summary.zh} data-en={item.summary.en}>{item.summary.zh}</p>
-            </article>
-          ))}
-        </div>
+            <div class="lab-life-grid">
+              {labLife.map((item) => (
+                <article class={`lab-life-card ${item.feature ? 'is-feature' : ''}`}>
+                  <img src={item.image} alt={item.title.zh} loading="lazy" />
+                  <div class="lab-life-caption">
+                    <time>{item.year}</time>
+                    <h3 data-i18n data-zh={item.title.zh} data-en={item.title.en}>{item.title.zh}</h3>
+                    <p data-i18n data-zh={item.summary.zh} data-en={item.summary.en}>{item.summary.zh}</p>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
 
@@ -439,24 +447,45 @@ const initialMemberCount = members.filter((member) => member.category === defaul
               本团队招收生物学（生物物理学）博士研究生，智能科学与技术（学硕）和电子信息（专硕）硕士研究生，欢迎报考、交流与合作。
             </p>
           </div>
-          <div class="contact-card">
-            <p>
-              <strong>Email</strong>
-              <a href={`mailto:${site.email}`}>{site.email}</a>
-            </p>
-            <p>
-              <strong>Address</strong>
-              <span data-i18n data-zh={site.address.zh} data-en={site.address.en}>{site.address.zh}</span>
-            </p>
+          <div class="contact-card-grid">
+            <article class="contact-info-card">
+              <span class="contact-icon">
+                <img src="/images/icons/address.png" alt="" loading="lazy" />
+              </span>
+              <div>
+                <strong>地址</strong>
+                <span data-i18n data-zh={site.address.zh} data-en={site.address.en}>{site.address.zh}</span>
+              </div>
+            </article>
+            <article class="contact-info-card">
+              <span class="contact-icon">
+                <img src="/images/icons/unit.png" alt="" loading="lazy" />
+              </span>
+              <div>
+                <strong>单位</strong>
+                <span data-i18n data-zh={site.unit.zh} data-en={site.unit.en}>{site.unit.zh}</span>
+              </div>
+            </article>
+            <article class="contact-info-card">
+              <span class="contact-icon">
+                <img src="/images/icons/email.png" alt="" loading="lazy" />
+              </span>
+              <div>
+                <strong>邮箱</strong>
+                <a href={`mailto:${site.email}`}>{site.email}</a>
+              </div>
+            </article>
           </div>
         </div>
       </section>
     </main>
 
     <footer class="site-footer">
-      <span>© {currentYear} LiJin Lab</span>
-      <span>Academic communication · Collaboration · Medical AI</span>
+      <span>Copyright © {currentYear} Li Lab. All rights reserved.</span>
+      <span>Designed for academic communication and collaboration.</span>
     </footer>
+
+    <a class="back-to-top" href="#top" aria-label="返回顶部">↑</a>
 
     <script is:inline>
       (() => {
@@ -574,31 +603,69 @@ const initialMemberCount = members.filter((member) => member.category === defaul
         const cards = Array.from(browser.querySelectorAll('[data-member-card]'));
         const count = browser.querySelector('[data-member-count]');
         const empty = browser.querySelector('[data-member-empty]');
+        const storageKey = 'li-lab-member-filter';
+        const validFilters = new Set(buttons.map((button) => button.dataset.memberFilter || 'all'));
 
-        const applyFilter = (category) => {
+        const getInitialFilter = () => {
+          const params = new URLSearchParams(window.location.search);
+          const queryFilter = params.get('memberFilter');
+          const savedFilter = sessionStorage.getItem(storageKey);
+
+          if (queryFilter && validFilters.has(queryFilter)) return queryFilter;
+          if (savedFilter && validFilters.has(savedFilter)) return savedFilter;
+          return 'PI';
+        };
+
+        const makePeopleUrl = (category) => {
+          const url = new URL(window.location.href);
+          if (category && category !== 'PI') {
+            url.searchParams.set('memberFilter', category);
+          } else {
+            url.searchParams.delete('memberFilter');
+          }
+          url.hash = 'people';
+          return url;
+        };
+
+        const applyFilter = (category, options = {}) => {
+          const safeCategory = validFilters.has(category) ? category : 'PI';
           let visibleCount = 0;
 
           cards.forEach((card) => {
-            const shouldShow = category === 'all' || card.dataset.category === category;
+            const shouldShow = safeCategory === 'all' || card.dataset.category === safeCategory;
             card.hidden = !shouldShow;
             if (shouldShow) visibleCount += 1;
           });
 
           buttons.forEach((button) => {
-            button.classList.toggle('is-active', button.dataset.memberFilter === category);
+            button.classList.toggle('is-active', button.dataset.memberFilter === safeCategory);
           });
 
           if (count) count.textContent = visibleCount;
           if (empty) empty.hidden = visibleCount !== 0;
+
+          sessionStorage.setItem(storageKey, safeCategory);
+          cards.forEach((card) => {
+            const href = card.getAttribute('href');
+            if (!href) return;
+            const detailUrl = new URL(href, window.location.origin);
+            detailUrl.searchParams.set('from', 'people');
+            detailUrl.searchParams.set('memberFilter', safeCategory);
+            card.setAttribute('href', `${detailUrl.pathname}${detailUrl.search}`);
+          });
+
+          if (options.syncUrl) {
+            window.history.replaceState(null, '', makePeopleUrl(safeCategory));
+          }
         };
 
         buttons.forEach((button) => {
           button.addEventListener('click', () => {
-            applyFilter(button.dataset.memberFilter || 'all');
+            applyFilter(button.dataset.memberFilter || 'all', { syncUrl: true });
           });
         });
 
-        applyFilter('PI');
+        applyFilter(getInitialFilter());
       })();
 
       (() => {
