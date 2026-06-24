@@ -219,7 +219,7 @@ export const members = [
     },
     topic: digitalPathologyTopic,
     highlights: ['数字病理', '医学人工智能', '深度学习', '病理图像识别'],
-    avatar: defaultMemberAvatar,
+    avatar: '/images/members/hhr.jpg',
   },
   {
     slug: 'shengnan-guo',
@@ -239,7 +239,7 @@ export const members = [
   },
   makeStudentMember('博士研究生', '陈正鑫', 'Zhengxin Chen', 'zhengxin-chen', '博士研究生', 'PhD Student', '/images/members/czx.jpg'),
   makeStudentMember('博士研究生', '曹勐', 'Meng Cao', 'meng-cao', '博士研究生', 'PhD Student', '/images/members/cm.jpg'),
-  makeStudentMember('研三', '刘新颖', 'Xinying Liu', 'xinying-liu', '硕士研究生 / 研三', 'MSc Student, Year 3'),
+  makeStudentMember('研三', '刘新颖', 'Xinying Liu', 'xinying-liu', '硕士研究生 / 研三', 'MSc Student, Year 3', '/images/members/lxy.jpg'),
   makeStudentMember('研三', '王学峰', 'Xuefeng Wang', 'xuefeng-wang', '硕士研究生 / 研三', 'MSc Student, Year 3', '/images/members/wxf.jpg'),
   makeStudentMember('研三', '张瑞杰', 'Ruijie Zhang', 'ruijie-zhang', '硕士研究生 / 研三', 'MSc Student, Year 3', '/images/members/zrj.jpg'),
   makeStudentMember(
@@ -253,7 +253,7 @@ export const members = [
     '研究课题：药物微观世界的探究，研三核动力牛马。',
     'Research focus: Exploring the microscopic world of drugs.'
   ),
-  makeStudentMember('研二', '蔡幸君', 'Xingjun Cai', 'xingjun-cai', '硕士研究生 / 研二', 'MSc Student, Year 2'),
+  makeStudentMember('研二', '蔡幸君', 'Xingjun Cai', 'xingjun-cai', '硕士研究生 / 研二', 'MSc Student, Year 2', '/images/members/cxj.png'),
   makeStudentMember('研一', '郭婷婷', 'Tingting Guo', 'tingting-guo', '硕士研究生 / 研一', 'MSc Student, Year 1', '/images/members/gtt.jpg'),
   makeStudentMember('研一', '邹大宇', 'Dayu Zou', 'dayu-zou', '硕士研究生 / 研一', 'MSc Student, Year 1', '/images/members/zdy.jpg'),
   makeStudentMember(
