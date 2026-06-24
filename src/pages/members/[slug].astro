@@ -11,7 +11,20 @@ export function getStaticPaths() {
 
 const { member } = Astro.props;
 const pageTitle = `${member.name.zh} | ${site.labName.zh}`;
+const pageTitleEn = `${member.name.en} | ${site.labName.en}`;
 const peopleReturnHref = '/?from=member#people';
+const memberCategoryLabels = {
+  PI: { zh: 'PI', en: 'PI' },
+  博士研究生: { zh: '博士研究生', en: 'PhD Student' },
+  研三: { zh: '研三', en: 'MSc Year 3' },
+  研二: { zh: '研二', en: 'MSc Year 2' },
+  研一: { zh: '研一', en: 'MSc Year 1' },
+};
+const memberCategoryLabel =
+  memberCategoryLabels[member.category as keyof typeof memberCategoryLabels] || {
+    zh: member.category,
+    en: member.category,
+  };
 ---
 
 <!doctype html>
@@ -23,7 +36,7 @@ const peopleReturnHref = '/?from=member#people';
     <title>{pageTitle}</title>
   </head>
 
-  <body>
+  <body data-title-zh={pageTitle} data-title-en={pageTitleEn}>
     <header class="profile-site-header">
       <div class="header-inner">
         <a class="brand" href="/#top" aria-label="LiJin Lab home">
@@ -31,18 +44,18 @@ const peopleReturnHref = '/?from=member#people';
             <img src="/images/lab-logo.png" alt="" />
           </span>
           <span class="brand-text">
-            <strong>{site.labName.zh}</strong>
-            <small>{site.labNameZh.zh}</small>
+            <strong data-i18n data-zh={site.labName.zh} data-en={site.labName.en}>{site.labName.zh}</strong>
+            <small data-i18n data-zh={site.labNameZh.zh} data-en={site.labNameZh.en}>{site.labNameZh.zh}</small>
           </span>
         </a>
 
         <nav class="nav-links" aria-label="成员页面导航">
-          <a href="/#about">课题组简介</a>
-          <a href="/#research">研究方向</a>
-          <a href={peopleReturnHref} data-people-return>团队成员</a>
-          <a href="/#publications">论文成果</a>
-          <a href="/#news">团队日常</a>
-          <a href="/#contact">联系我们</a>
+          <a href="/#about" data-i18n data-zh="课题组简介" data-en="About">课题组简介</a>
+          <a href="/#research" data-i18n data-zh="研究方向" data-en="Research">研究方向</a>
+          <a href={peopleReturnHref} data-people-return data-i18n data-zh="团队成员" data-en="People">团队成员</a>
+          <a href="/#publications" data-i18n data-zh="论文成果" data-en="Publications">论文成果</a>
+          <a href="/#news" data-i18n data-zh="团队日常" data-en="Lab Life">团队日常</a>
+          <a href="/#contact" data-i18n data-zh="联系我们" data-en="Contact">联系我们</a>
         </nav>
       </div>
     </header>
@@ -50,16 +63,16 @@ const peopleReturnHref = '/?from=member#people';
     <main class="member-profile-page">
       <section class="member-profile-shell">
         <nav class="profile-breadcrumb" aria-label="Breadcrumb">
-          <a href="/#top">首页</a>
+          <a href="/#top" data-i18n data-zh="首页" data-en="Home">首页</a>
           <span>/</span>
-          <a href={peopleReturnHref} data-people-return>成员</a>
+          <a href={peopleReturnHref} data-people-return data-i18n data-zh="成员" data-en="People">成员</a>
           <span>/</span>
-          <span>{member.name.zh}</span>
+          <span data-i18n data-zh={member.name.zh} data-en={member.name.en}>{member.name.zh}</span>
         </nav>
 
         <div class="profile-title-bar">
           <span></span>
-          <h1>{member.category}</h1>
+          <h1 data-i18n data-zh={memberCategoryLabel.zh} data-en={memberCategoryLabel.en}>{memberCategoryLabel.zh}</h1>
         </div>
 
         <article class="profile-layout">
@@ -69,16 +82,16 @@ const peopleReturnHref = '/?from=member#people';
 
           <div class="profile-content">
             <p class="profile-label">{site.labName.zh}</p>
-            <h2>{member.name.zh}</h2>
-            <p class="profile-role">{member.role.zh}</p>
+            <h2 data-i18n data-zh={member.name.zh} data-en={member.name.en}>{member.name.zh}</h2>
+            <p class="profile-role" data-i18n data-zh={member.role.zh} data-en={member.role.en}>{member.role.zh}</p>
 
             <div class="profile-text">
-              <p>{member.focus.zh}</p>
+              <p data-i18n data-zh={member.focus.zh} data-en={member.focus.en}>{member.focus.zh}</p>
             </div>
 
             <div class="profile-actions">
-              <a class="button button-primary" href={peopleReturnHref} data-people-return>返回团队成员</a>
-              {member.email && <a class="button button-secondary" href={`mailto:${member.email}`}>联系邮箱</a>}
+              <a class="button button-primary" href={peopleReturnHref} data-people-return data-i18n data-zh="返回团队成员" data-en="Back to People">返回团队成员</a>
+              {member.email && <a class="button button-secondary" href={`mailto:${member.email}`} data-i18n data-zh="联系邮箱" data-en="Email">联系邮箱</a>}
             </div>
           </div>
         </article>
@@ -86,6 +99,22 @@ const peopleReturnHref = '/?from=member#people';
     </main>
 
     <script>
+      const languageKey = 'li-lab-language';
+      const applyLanguage = (lang) => {
+        const safeLang = lang === 'en' ? 'en' : 'zh';
+        document.documentElement.lang = safeLang === 'en' ? 'en' : 'zh-CN';
+
+        document.querySelectorAll('[data-i18n]').forEach((node) => {
+          const value = node.dataset[safeLang];
+          if (value) node.textContent = value;
+        });
+
+        const title = safeLang === 'en' ? document.body.dataset.titleEn : document.body.dataset.titleZh;
+        if (title) document.title = title;
+      };
+
+      applyLanguage(localStorage.getItem(languageKey) || 'zh');
+
       const params = new URLSearchParams(window.location.search);
       const filter = params.get('memberFilter') || sessionStorage.getItem('li-lab-member-filter') || 'PI';
 

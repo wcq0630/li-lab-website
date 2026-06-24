@@ -73,12 +73,12 @@ export const site = {
 
 export const stats = [
   {
-    value: '5',
+    value: '4',
     label: { zh: '教师', en: 'Faculty Members' },
   },
   {
-    value: '1',
-    label: { zh: '博士研究生', en: 'PhD Student' },
+    value: '2',
+    label: { zh: '博士研究生', en: 'PhD Students' },
   },
   {
     value: '11',
@@ -238,6 +238,7 @@ export const members = [
     avatar: '/images/members/gsn.jpg',
   },
   makeStudentMember('博士研究生', '陈正鑫', 'Zhengxin Chen', 'zhengxin-chen', '博士研究生', 'PhD Student', '/images/members/czx.jpg'),
+  makeStudentMember('博士研究生', '曹勐', 'Meng Cao', 'meng-cao', '博士研究生', 'PhD Student', '/images/members/cm.jpg'),
   makeStudentMember('研三', '刘新颖', 'Xinying Liu', 'xinying-liu', '硕士研究生 / 研三', 'MSc Student, Year 3'),
   makeStudentMember('研三', '王学峰', 'Xuefeng Wang', 'xuefeng-wang', '硕士研究生 / 研三', 'MSc Student, Year 3', '/images/members/wxf.jpg'),
   makeStudentMember('研三', '张瑞杰', 'Ruijie Zhang', 'ruijie-zhang', '硕士研究生 / 研三', 'MSc Student, Year 3', '/images/members/zrj.jpg'),
@@ -249,7 +250,8 @@ export const members = [
     '硕士研究生 / 研二',
     'MSc Student, Year 2',
     '/images/members/cj.png',
-    '研究课题：药物微观世界的探究，研三核动力牛马。'
+    '研究课题：药物微观世界的探究，研三核动力牛马。',
+    'Research focus: Exploring the microscopic world of drugs.'
   ),
   makeStudentMember('研二', '蔡幸君', 'Xingjun Cai', 'xingjun-cai', '硕士研究生 / 研二', 'MSc Student, Year 2'),
   makeStudentMember('研一', '郭婷婷', 'Tingting Guo', 'tingting-guo', '硕士研究生 / 研一', 'MSc Student, Year 1', '/images/members/gtt.jpg'),
@@ -262,7 +264,8 @@ export const members = [
     '硕士研究生 / 研一',
     'MSc Student, Year 1',
     '/images/members/jjh.jpg',
-    '研究课题：医学影像与多组学数据融合分析，重点关注慢性肾病等复杂疾病的分子机制、疾病异质性及精准分层研究，利用MRI、病理影像、空间转录组和单细胞组学等多模态数据探索疾病进展规律与潜在治疗靶点。'
+    '研究课题：医学影像与多组学数据融合分析，重点关注慢性肾病等复杂疾病的分子机制、疾病异质性及精准分层研究，利用MRI、病理影像、空间转录组和单细胞组学等多模态数据探索疾病进展规律与潜在治疗靶点。',
+    'Research focus: Medical imaging and multi-omics data fusion, with emphasis on molecular mechanisms, disease heterogeneity, and precision stratification in complex diseases such as chronic kidney disease. The work integrates MRI, pathology images, spatial transcriptomics, and single-cell omics to investigate disease progression and potential therapeutic targets.'
   ),
   makeStudentMember('研一', '刘禹希', 'Yuxi Liu', 'yuxi-liu', '硕士研究生 / 研一', 'MSc Student, Year 1', '/images/members/lyx.jpg'),
   makeStudentMember(
@@ -273,12 +276,78 @@ export const members = [
     '硕士研究生 / 研一',
     'MSc Student, Year 1',
     '/images/members/wcq.jpg',
-    '研究课题：主要从事全切片病理图像（WSI）的人工智能分析研究，重点关注真实医院小样本场景下的弱监督学习、患者参照式建模与可解释病理图像分类。'
+    '研究课题：主要从事全切片病理图像（WSI）的人工智能分析研究，重点关注真实医院小样本场景下的弱监督学习、患者参照式建模与可解释病理图像分类。',
+    'Research focus: Artificial intelligence analysis of whole-slide pathology images (WSI), with emphasis on weakly supervised learning, patient-referenced modeling, and interpretable pathology image classification in real-world small-sample hospital scenarios.'
   ),
   makeStudentMember('研一', '谢欣宜', 'Xinyi Xie', 'xinyi-xie', '硕士研究生 / 研一', 'MSc Student, Year 1', '/images/members/xxy.jpg'),
+  makeStudentMember(
+    '已毕业',
+    '陈家齐',
+    'Jiaqi Chen',
+    'jiaqi-chen',
+    '已毕业学生',
+    'Alumnus',
+    defaultMemberAvatar,
+    '去向：中山大学读博。',
+    'Destination: PhD study at Sun Yat-sen University.'
+  ),
+  makeStudentMember(
+    '已毕业',
+    '李天一',
+    'Tianyi Li',
+    'tianyi-li',
+    '已毕业学生',
+    'Alumnus',
+    defaultMemberAvatar,
+    '去向：暨南大学读博。',
+    'Destination: PhD study at Jinan University.'
+  ),
+  makeStudentMember(
+    '已毕业',
+    '冯德华',
+    'Dehua Feng',
+    'dehua-feng',
+    '已毕业学生',
+    'Alumnus',
+    defaultMemberAvatar,
+    '去向：复旦大学读博。',
+    'Destination: PhD study at Fudan University.'
+  ),
 ];
 
 export const publications = [
+  {
+    year: '2025',
+    title: {
+      zh: 'Integrative genomics characterizes HCC eRNAs for prognosis and targeted therapy.',
+      en: 'Integrative genomics characterizes HCC eRNAs for prognosis and targeted therapy.',
+    },
+    authors: 'Chen Z, Wang L, Chen J, Li L, Zhang R, Zhu Y, Feng D, Han H, Li T, Liu X, Wang X, Wang Z, Wang H, Li X, Hao J, Zeng Z, Li J.',
+    venue: { zh: 'Scientific Reports. 2025 Nov 25;15:41913.', en: 'Scientific Reports. 2025 Nov 25;15:41913.' },
+    doi: '10.1038/s41598-025-25853-0',
+    link: 'https://doi.org/10.1038/s41598-025-25853-0',
+    representative: true,
+    tags: [
+      { zh: '生物信息学', en: 'Bioinformatics' },
+      { zh: '系统生物学', en: 'Systems Biology' },
+    ],
+  },
+  {
+    year: '2025',
+    title: {
+      zh: 'Drug discovery for chemotherapeutic resistance based on pathway-responsive gene sets and its application in breast cancer.',
+      en: 'Drug discovery for chemotherapeutic resistance based on pathway-responsive gene sets and its application in breast cancer.',
+    },
+    authors: 'Feng D#, Hao J#, Li L#, Chen J, Liu X, Zhang R, Han H, Li T, Wang X, Li X, Yu L, Li B*, Li J*, Wang L*.',
+    venue: { zh: 'Frontiers in Bioinformatics. 2025 Sep 16;5:1661601.', en: 'Frontiers in Bioinformatics. 2025 Sep 16;5:1661601.' },
+    doi: '10.3389/fbinf.2025.1661601',
+    link: 'https://doi.org/10.3389/fbinf.2025.1661601',
+    representative: true,
+    tags: [
+      { zh: 'AI药物发现', en: 'AI Drug Discovery' },
+      { zh: '生物信息学', en: 'Bioinformatics' },
+    ],
+  },
   {
     year: '2025',
     title: {
@@ -542,7 +611,20 @@ export const labLife = [
       zh: '近年毕业合影，保留属于课题组的阶段性记忆。',
       en: 'A recent graduation photo preserving one of the lab’s milestone memories.',
     },
-    image: '/images/lab/graduation-2025.png',
+    image: '/images/lab/graduation-2025.jpg',
+    feature: false,
+  },
+  {
+    year: '2024',
+    title: {
+      zh: '2024届师生合影',
+      en: 'Faculty-Student Photo 2024',
+    },
+    summary: {
+      zh: '课题组师生在校园中的集体留影，记录共同学习与成长的时刻。',
+      en: 'A faculty-student group photo on campus, capturing a shared moment of learning and growth.',
+    },
+    image: '/images/lab/graduation-2024.jpg',
     feature: false,
   },
 ];

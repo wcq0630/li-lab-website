@@ -12,13 +12,38 @@ import {
 import '../styles/global.css';
 
 const currentYear = new Date().getFullYear();
-const publicationKeywords = ['全部', 'AI药物发现', '生物信息学', '单细胞多组学', '系统生物学', '医学AI'];
+const publicationKeywords = [
+  { value: 'all', zh: '全部', en: 'All' },
+  { value: 'AI药物发现', zh: 'AI药物发现', en: 'AI Drug Discovery' },
+  { value: '生物信息学', zh: '生物信息学', en: 'Bioinformatics' },
+  { value: '单细胞多组学', zh: '单细胞多组学', en: 'Single-cell Multi-omics' },
+  { value: '系统生物学', zh: '系统生物学', en: 'Systems Biology' },
+  { value: '医学AI', zh: '医学AI', en: 'Medical AI' },
+];
 const publicationYears = Array.from(new Set(publications.map((paper) => paper.year))).sort(
   (a, b) => Number(b) - Number(a)
 );
-const memberFilters = ['全部', 'PI', '博士研究生', '研三', '研二', '研一'];
+const memberFilters = [
+  { value: 'all', zh: '全部', en: 'All' },
+  { value: 'PI', zh: 'PI', en: 'PI' },
+  { value: '博士研究生', zh: '博士研究生', en: 'PhD Student' },
+  { value: '研三', zh: '研三', en: 'MSc Year 3' },
+  { value: '研二', zh: '研二', en: 'MSc Year 2' },
+  { value: '研一', zh: '研一', en: 'MSc Year 1' },
+  { value: '已毕业', zh: '已毕业', en: 'Alumni' },
+];
 const defaultMemberFilter = 'PI';
 const initialMemberCount = members.filter((member) => member.category === defaultMemberFilter).length;
+const memberCategoryLabels = {
+  PI: { zh: 'PI', en: 'PI' },
+  博士研究生: { zh: '博士研究生', en: 'PhD Student' },
+  研三: { zh: '研三', en: 'MSc Year 3' },
+  研二: { zh: '研二', en: 'MSc Year 2' },
+  研一: { zh: '研一', en: 'MSc Year 1' },
+  已毕业: { zh: '已毕业', en: 'Alumni' },
+};
+const getMemberCategoryLabel = (category: string) =>
+  memberCategoryLabels[category as keyof typeof memberCategoryLabels] || { zh: category, en: category };
 ---
 
 <!doctype html>
@@ -131,10 +156,10 @@ const initialMemberCount = members.filter((member) => member.category === defaul
 
           <p
             data-i18n
-            data-zh="本研究团队现有教师5人，其中教授2人、博士4人，现有博士研究生1人、硕士研究生11人，长期致力于人工智能在生物医学大数据领域的研究。"
-            data-en="The team currently has five faculty members, including two professors and four PhD holders, together with one doctoral student and eleven master students. The team has long focused on artificial intelligence for biomedical big data."
+            data-zh="本研究团队现有教师4人，其中教授2人、博士4人，现有博士研究生2人、硕士研究生11人，长期致力于人工智能在生物医学大数据领域的研究。"
+            data-en="The team currently has five faculty members, including two professors and four PhD holders, together with two doctoral students and eleven master students. The team has long focused on artificial intelligence for biomedical big data."
           >
-            本研究团队现有教师5人，其中教授2人、博士4人，现有博士研究生1人、硕士研究生11人，长期致力于人工智能在生物医学大数据领域的研究。
+            本研究团队现有教师4人，其中教授2人、博士4人，现有博士研究生2人、硕士研究生11人，长期致力于人工智能在生物医学大数据领域的研究。
           </p>
 
           <p
@@ -225,29 +250,25 @@ const initialMemberCount = members.filter((member) => member.category === defaul
               <h2 data-i18n data-zh={ui.sections.peopleTitle.zh} data-en={ui.sections.peopleTitle.en}>
                 {ui.sections.peopleTitle.zh}
               </h2>
-              <p
-                class="people-note"
-                data-i18n
-                data-zh="按 PI、博士研究生、研三、研二、研一筛选团队成员。教师信息已先行整理，研究生名单可继续补充。"
-                data-en="Filter team members by PI, PhD student, and master student year. Faculty profiles are listed first; student names can be added later."
-              >
-                按 PI、博士研究生、研三、研二、研一筛选团队成员。教师信息已先行整理，研究生名单可继续补充。
-              </p>
+              
             </div>
             <div class="people-count">
               <strong data-member-count>{initialMemberCount}</strong>
-              <span>成员条目</span>
+              <span data-i18n data-zh="成员条目" data-en="Members">成员条目</span>
             </div>
           </div>
 
           <div class="people-filter-bar" aria-label="Member filters">
             {memberFilters.map((filter) => (
               <button
-                class={`member-filter ${filter === defaultMemberFilter ? 'is-active' : ''}`}
+                class={`member-filter ${filter.value === defaultMemberFilter ? 'is-active' : ''}`}
                 type="button"
-                data-member-filter={filter === '全部' ? 'all' : filter}
+                data-member-filter={filter.value}
+                data-i18n
+                data-zh={filter.zh}
+                data-en={filter.en}
               >
-                {filter}
+                {filter.zh}
               </button>
             ))}
           </div>
@@ -262,8 +283,22 @@ const initialMemberCount = members.filter((member) => member.category === defaul
                 hidden={member.category !== defaultMemberFilter}
               >
                 <div class="member-topline">
-                  <span class="member-category">{member.category}</span>
-                  <span class="member-email">{member.email ? '邮箱' : '主页'}</span>
+                  <span
+                    class="member-category"
+                    data-i18n
+                    data-zh={getMemberCategoryLabel(member.category).zh}
+                    data-en={getMemberCategoryLabel(member.category).en}
+                  >
+                    {getMemberCategoryLabel(member.category).zh}
+                  </span>
+                  <span
+                    class="member-email"
+                    data-i18n
+                    data-zh={member.email ? '邮箱' : '主页'}
+                    data-en={member.email ? 'Email' : 'Profile'}
+                  >
+                    {member.email ? '邮箱' : '主页'}
+                  </span>
                 </div>
                 <div class="member-main">
                   <img src={member.avatar} alt="" loading="lazy" />
@@ -273,11 +308,20 @@ const initialMemberCount = members.filter((member) => member.category === defaul
                   </div>
                 </div>
                 <p class="member-focus" data-i18n data-zh={member.focus.zh} data-en={member.focus.en}>{member.focus.zh}</p>
-                <span class="member-card-action">查看个人介绍</span>
+                <span class="member-card-action" data-i18n data-zh="查看个人介绍" data-en="View Profile">查看个人介绍</span>
               </a>
             ))}
           </div>
-          <p class="people-empty" data-member-empty hidden>当前分类下暂无成员，后续名单补充后会显示在这里。</p>
+          <p
+            class="people-empty"
+            data-member-empty
+            data-i18n
+            data-zh="当前分类下暂无成员，后续名单补充后会显示在这里。"
+            data-en="No members are available in this category yet."
+            hidden
+          >
+            当前分类下暂无成员，后续名单补充后会显示在这里。
+          </p>
         </div>
         </div>
       </section>
@@ -293,14 +337,7 @@ const initialMemberCount = members.filter((member) => member.category === defaul
               <h2 data-i18n data-zh={ui.sections.publicationsTitle.zh} data-en={ui.sections.publicationsTitle.en}>
                 {ui.sections.publicationsTitle.zh}
               </h2>
-              <p
-                class="publication-note"
-                data-i18n
-                data-zh="以下为团队已发表论文列表。网页中保留共同第一作者（#）和通讯作者（*）标记，点击题名可跳转至期刊或 DOI 页面。"
-                data-en="Selected representative publications. Co-first authors (#) and corresponding authors (*) are retained; click each title to open the journal or DOI page."
-              >
-                以下为团队代表性论著列表。网页中保留共同第一作者（#）和通讯作者（*）标记，点击题名可跳转至期刊或 DOI 页面。
-              </p>
+              
             </div>
           </div>
 
@@ -311,6 +348,11 @@ const initialMemberCount = members.filter((member) => member.category === defaul
                 type="search"
                 placeholder="搜索题名、作者、期刊或 DOI"
                 aria-label="搜索题名、作者、期刊或 DOI"
+                data-i18n-attrs
+                data-placeholder-zh="搜索题名、作者、期刊或 DOI"
+                data-placeholder-en="Search title, authors, journal, or DOI"
+                data-aria-label-zh="搜索题名、作者、期刊或 DOI"
+                data-aria-label-en="Search title, authors, journal, or DOI"
                 data-pub-search
               />
             </div>
@@ -320,15 +362,27 @@ const initialMemberCount = members.filter((member) => member.category === defaul
                 <button
                   class={`pub-filter ${index === 0 ? 'is-active' : ''}`}
                   type="button"
-                  data-pub-keyword={keyword === '全部' ? 'all' : keyword}
+                  data-pub-keyword={keyword.value}
+                  data-i18n
+                  data-zh={keyword.zh}
+                  data-en={keyword.en}
                 >
-                  {keyword}
+                  {keyword.zh}
                 </button>
               ))}
             </div>
 
             <div class="publication-filter-group" aria-label="Year filters">
-              <button class="pub-filter is-active" type="button" data-pub-year="all">全部年份</button>
+              <button
+                class="pub-filter is-active"
+                type="button"
+                data-pub-year="all"
+                data-i18n
+                data-zh="全部年份"
+                data-en="All Years"
+              >
+                全部年份
+              </button>
               {publicationYears.map((year) => (
                 <button class="pub-filter" type="button" data-pub-year={year}>{year}</button>
               ))}
@@ -336,8 +390,10 @@ const initialMemberCount = members.filter((member) => member.category === defaul
           </div>
 
           <div class="publication-result-line">
-            <span>共 <strong data-pub-count>{publications.length}</strong> 篇论文</span>
-            <span>按关键词和年份实时筛选</span>
+            <span data-result-label data-zh-prefix="共 " data-zh-suffix=" 篇论文" data-en-prefix="" data-en-suffix=" papers">
+              <span data-result-prefix>共 </span><strong data-pub-count>{publications.length}</strong><span data-result-suffix> 篇论文</span>
+            </span>
+            <span data-i18n data-zh="按关键词和年份实时筛选" data-en="Filter by keyword and year">按关键词和年份实时筛选</span>
           </div>
 
           <div class="publication-list">
@@ -389,7 +445,16 @@ const initialMemberCount = members.filter((member) => member.category === defaul
             })}
           </div>
 
-          <p class="publication-empty" data-pub-empty hidden>未找到匹配的论文，请调整关键词、年份或搜索内容。</p>
+          <p
+            class="publication-empty"
+            data-pub-empty
+            data-i18n
+            data-zh="未找到匹配的论文，请调整关键词、年份或搜索内容。"
+            data-en="No matching publications were found. Try another keyword, year, or search term."
+            hidden
+          >
+            未找到匹配的论文，请调整关键词、年份或搜索内容。
+          </p>
         </div>
         </div>
       </section>
@@ -404,13 +469,7 @@ const initialMemberCount = members.filter((member) => member.category === defaul
               <h2 data-i18n data-zh={ui.sections.newsTitle.zh} data-en={ui.sections.newsTitle.en}>
                 {ui.sections.newsTitle.zh}
               </h2>
-              <p
-                data-i18n
-                data-zh="这里用于记录课题组毕业季、组会、团建、竞赛、学术会议和日常瞬间。后续新增照片时，可以继续按年份和主题扩展成照片故事墙。"
-                data-en="A visual wall for graduation seasons, meetings, outings, competitions, conferences and everyday lab moments."
-              >
-                这里用于记录课题组毕业季、组会、团建、竞赛、学术会议和日常瞬间。后续新增照片时，可以继续按年份和主题扩展成照片故事墙。
-              </p>
+              
             </div>
 
             <div class="lab-life-grid">
@@ -453,7 +512,7 @@ const initialMemberCount = members.filter((member) => member.category === defaul
                 <img src="/images/icons/address.png" alt="" loading="lazy" />
               </span>
               <div>
-                <strong>地址</strong>
+                <strong data-i18n data-zh="地址" data-en="Address">地址</strong>
                 <span data-i18n data-zh={site.address.zh} data-en={site.address.en}>{site.address.zh}</span>
               </div>
             </article>
@@ -462,7 +521,7 @@ const initialMemberCount = members.filter((member) => member.category === defaul
                 <img src="/images/icons/unit.png" alt="" loading="lazy" />
               </span>
               <div>
-                <strong>单位</strong>
+                <strong data-i18n data-zh="单位" data-en="Affiliation">单位</strong>
                 <span data-i18n data-zh={site.unit.zh} data-en={site.unit.en}>{site.unit.zh}</span>
               </div>
             </article>
@@ -471,7 +530,7 @@ const initialMemberCount = members.filter((member) => member.category === defaul
                 <img src="/images/icons/email.png" alt="" loading="lazy" />
               </span>
               <div>
-                <strong>邮箱</strong>
+                <strong data-i18n data-zh="邮箱" data-en="Email">邮箱</strong>
                 <a href={`mailto:${site.email}`}>{site.email}</a>
               </div>
             </article>
@@ -485,12 +544,23 @@ const initialMemberCount = members.filter((member) => member.category === defaul
       <span>Designed for academic communication and collaboration.</span>
     </footer>
 
-    <a class="back-to-top" href="#top" aria-label="返回顶部">↑</a>
+    <a
+      class="back-to-top"
+      href="#top"
+      aria-label="返回顶部"
+      data-i18n-attrs
+      data-aria-label-zh="返回顶部"
+      data-aria-label-en="Back to top"
+    >
+      ↑
+    </a>
 
     <script is:inline>
       (() => {
         const key = 'li-lab-language';
         const textNodes = document.querySelectorAll('[data-i18n]');
+        const attrNodes = document.querySelectorAll('[data-i18n-attrs]');
+        const resultLabels = document.querySelectorAll('[data-result-label]');
         const toggle = document.querySelector('[data-lang-toggle]');
         const toggleLabel = document.querySelector('[data-lang-toggle-label]');
         const body = document.body;
@@ -502,6 +572,22 @@ const initialMemberCount = members.filter((member) => member.category === defaul
           textNodes.forEach((node) => {
             const value = node.dataset[safeLang];
             if (value) node.textContent = value;
+          });
+
+          attrNodes.forEach((node) => {
+            const placeholder = node.dataset[`placeholder${safeLang === 'en' ? 'En' : 'Zh'}`];
+            const ariaLabel = node.dataset[`ariaLabel${safeLang === 'en' ? 'En' : 'Zh'}`];
+            if (placeholder) node.setAttribute('placeholder', placeholder);
+            if (ariaLabel) node.setAttribute('aria-label', ariaLabel);
+          });
+
+          resultLabels.forEach((node) => {
+            const prefix = node.dataset[`${safeLang}Prefix`];
+            const suffix = node.dataset[`${safeLang}Suffix`];
+            const prefixNode = node.querySelector('[data-result-prefix]');
+            const suffixNode = node.querySelector('[data-result-suffix]');
+            if (prefixNode && prefix !== undefined) prefixNode.textContent = prefix;
+            if (suffixNode && suffix !== undefined) suffixNode.textContent = suffix;
           });
 
           if (toggleLabel) {
